@@ -49,12 +49,13 @@
     <style>
         :root {
             --bg-indigo-dark:#091724;
-            --milk-white:#FFFCF1;
+            --milk-white:#EFECE6;
             --milk-white-pure:#FAF8F5;
             --text-indigo:#091724;
-            --text-light:#FFFCF1;
-            --glass-indigo: rgba(9, 23, 36, 0.85);
-            --glass-border: rgba(255, 252, 241, 0.25);
+            --text-light:#FAF8F5;
+            --text-gray:#93A9B8;
+            --glass-indigo: rgba(9, 23, 36, 0.72);
+            --glass-border: rgba(239, 236, 230, 0.18);
             --radius: 20px;
             --error-red: #FF6B6B;
             --success-green: #51CF66;
@@ -64,26 +65,23 @@
             background: linear-gradient(135deg, #0D1F2D 0%, #1B3B50 25%, #32668A 55%, #E4ECF2 80%, #FFFCF1 100%);
             background-attachment: fixed;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            color: #FAF8F5;
+            color: #0D1F2D;
             overflow-x: hidden;
             min-height: 100vh;
         }
 
-        .text-milk-fixed { color: #FFFCF1 !important; }
-        .text-sub-fixed { color: #E4ECF2 !important; }
-
+        /* Glassmorphism Cards & Nav */
         .glass-card {
-            background: rgba(255, 252, 241, 0.92);
+            background: rgba(255, 252, 241, 0.88);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 252, 241, 0.4);
             position: relative;
-            color: #0D1F2D;
             transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .glass-nav {
-            background: rgba(13, 31, 45, 0.88);
+            background: rgba(13, 31, 45, 0.85);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 252, 241, 0.15);
@@ -92,7 +90,9 @@
         .glow-card:hover {
             transform: translateY(-4px) scale(1.002);
             border-color: rgba(255, 252, 241, 0.8);
-            box-shadow: 0 0 30px rgba(50, 102, 138, 0.4);
+            box-shadow: 
+                0 0 30px rgba(50, 102, 138, 0.4),
+                0 20px 40px -10px rgba(10, 21, 32, 0.3);
         }
 
         .glow-btn-primary {
@@ -119,10 +119,9 @@
         }
 
         .glow-input {
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             background: rgba(255, 255, 255, 0.95);
             border: 1px solid rgba(13, 31, 45, 0.2);
-            color: #0D1F2D;
         }
         .glow-input:focus {
             outline: none;
@@ -131,7 +130,7 @@
             box-shadow: 0 0 0 3px rgba(27, 59, 80, 0.25);
         }
 
-        /* ===== AUTH STYLING ===== */
+        /* ===== AUTH PAGE STYLING ===== */
         .atmosphere {
             position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
             background: linear-gradient(130deg, #07121D 0%, #10273A 28%, #1E4666 58%, #8FA9BC 82%, #EFECE6 100%);
@@ -163,13 +162,14 @@
         }
 
         .auth-page {
-            display: none !important;
-            opacity: 0;
-            transition: opacity 0.4s ease-in-out;
+            display: none;
+            animation: page-in 0.6s cubic-bezier(.22,1,.36,1);
         }
-        .auth-page.active {
-            display: block !important;
-            opacity: 1 !important;
+        .auth-page.active { display: block; }
+
+        @keyframes page-in {
+            from { opacity: 0; transform: translateY(18px) scale(0.99); filter: blur(6px); }
+            to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
         }
 
         .login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 48px 20px; }
@@ -204,7 +204,7 @@
         ::-webkit-scrollbar-thumb { background: #32668A; border-radius: 9999px; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col relative antialiased">
+<body class="min-h-screen flex flex-col relative antialiased selection:bg-indigoJapanese-700 selection:text-milk">
 
     <!-- ================================================================= -->
     <!-- SECTION 1: AUTHENTICATION FLOW (Welcome / Login / Signup)         -->
@@ -220,17 +220,17 @@
 
         <!-- 1A: WELCOME SCREEN -->
         <section class="auth-page active" id="page-welcome">
-            <div class="min-h-screen flex flex-col items-center justify-center text-center px-6 py-20 relative z-10">
-                <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-indigoJapanese-950/80 border border-milk/20 text-xs text-milk-fixed mb-8 backdrop-blur-md shadow-lg">
+            <div class="min-h-screen flex flex-col items-center justify-center text-center px-6 py-20">
+                <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-indigoJapanese-950/70 border border-milk/20 text-xs text-milk mb-10 backdrop-blur-md">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                     UNIVERSE CAREER PLATFORM
                 </div>
 
-                <h1 class="font-display font-extrabold text-4xl sm:text-6xl text-milk-fixed tracking-tight uppercase max-w-4xl leading-tight">
-                    WELCOME TO <span class="text-sub-fixed">CAREER OS</span>
+                <h1 class="font-display font-extrabold text-4xl sm:text-6xl text-milk tracking-tight uppercase max-w-4xl leading-tight">
+                    WELCOME TO <span class="text-indigoJapanese-100">CAREER OS</span>
                 </h1>
 
-                <p class="mt-6 max-w-2xl text-sub-fixed text-sm sm:text-base leading-relaxed">
+                <p class="mt-6 max-w-2xl text-indigoJapanese-100 text-sm sm:text-base leading-relaxed">
                     The next-generation AI platform that intelligently discovers job opportunities — while helping you build your future with autonomous AI agents.
                 </p>
 
@@ -245,30 +245,30 @@
                 <div class="mt-20 w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
                     <div class="p-6 rounded-2xl bg-milk text-indigoJapanese-950 border border-milk/60 shadow-xl">
                         <div class="w-10 h-10 rounded-xl bg-indigoJapanese-950 text-milk flex items-center justify-center mb-4">
-                            <i data-lucide="file-text" class="w-5 h-5 text-milk"></i>
+                            <i data-lucide="file-text" class="w-5 h-5"></i>
                         </div>
-                        <h3 class="font-bold text-sm mb-1 text-indigoJapanese-950">Detailed Job Dissection</h3>
-                        <p class="text-xs text-indigoJapanese-600 leading-relaxed">Get deep insights and breakdown on recommended jobs with the Strategist Agent.</p>
+                        <h3 class="font-bold text-sm mb-1">Detailed Job Dissection</h3>
+                        <p class="text-xs text-indigoJapanese-600 leading-relaxed">Get deep insights and breakdown on recommended jobs.</p>
                     </div>
 
                     <div class="p-6 rounded-2xl bg-milk text-indigoJapanese-950 border border-milk/60 shadow-xl">
                         <div class="w-10 h-10 rounded-xl bg-indigoJapanese-950 text-milk flex items-center justify-center mb-4">
-                            <i data-lucide="zap" class="w-5 h-5 text-milk"></i>
+                            <i data-lucide="zap" class="w-5 h-5"></i>
                         </div>
-                        <h3 class="font-bold text-sm mb-1 text-indigoJapanese-950">Live Multi-Portal Search</h3>
-                        <p class="text-xs text-indigoJapanese-600 leading-relaxed">Instantly update job openings across LinkedIn, Devpost, Unstop, RemoteOK, & Arbeitnow.</p>
+                        <h3 class="font-bold text-sm mb-1">Live Multi-Portal Search</h3>
+                        <p class="text-xs text-indigoJapanese-600 leading-relaxed">Instantly update all job openings across LinkedIn, Devpost, & Unstop.</p>
                     </div>
 
                     <div class="p-6 rounded-2xl bg-milk text-indigoJapanese-950 border border-milk/60 shadow-xl">
                         <div class="w-10 h-10 rounded-xl bg-indigoJapanese-950 text-milk flex items-center justify-center mb-4">
-                            <i data-lucide="target" class="w-5 h-5 text-milk"></i>
+                            <i data-lucide="bot" class="w-5 h-5"></i>
                         </div>
-                        <h3 class="font-bold text-sm mb-1 text-indigoJapanese-950">Recruiter Match Engine</h3>
-                        <p class="text-xs text-indigoJapanese-600 leading-relaxed">Deterministic candidate fit score predictions evaluated against live postings.</p>
+                        <h3 class="font-bold text-sm mb-1">Career Growth Assistant</h3>
+                        <p class="text-xs text-indigoJapanese-600 leading-relaxed">Personalized AI assistance built for long-term career growth.</p>
                     </div>
                 </div>
 
-                <div class="mt-16 text-[11px] text-sub-fixed uppercase tracking-widest font-semibold flex items-center gap-3">
+                <div class="mt-16 text-[11px] text-indigoJapanese-200 uppercase tracking-widest font-semibold flex items-center gap-3">
                     <span class="w-6 h-px bg-milk/30"></span> Powered by Team ABD <span class="w-6 h-px bg-milk/30"></span>
                 </div>
             </div>
@@ -288,33 +288,33 @@
                         </div>
                     </div>
 
-                    <h2 class="text-2xl font-bold mt-6 text-milk-fixed">Welcome Back</h2>
-                    <p class="text-xs text-sub-fixed mt-1 mb-6">Sign in to continue your AI-powered career journey.</p>
+                    <h2 class="text-2xl font-bold mt-6">Welcome Back</h2>
+                    <p class="text-xs text-indigoJapanese-200 mt-1 mb-6">Sign in to continue your AI-powered career journey.</p>
 
                     <div id="loginMsg" class="auth-message"></div>
 
                     <form id="loginForm" class="space-y-4">
                         <div>
-                            <label class="block text-xs text-sub-fixed mb-1.5 font-medium">Email Address</label>
+                            <label class="block text-xs text-indigoJapanese-200 mb-1.5 font-medium">Email Address</label>
                             <div class="input-shell">
-                                <i data-lucide="mail" class="w-4 h-4 text-sub-fixed"></i>
+                                <i data-lucide="mail" class="w-4 h-4 text-indigoJapanese-200"></i>
                                 <input type="email" id="loginEmail" placeholder="you@example.com" required>
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs text-sub-fixed mb-1.5 font-medium">Password</label>
+                            <label class="block text-xs text-indigoJapanese-200 mb-1.5 font-medium">Password</label>
                             <div class="input-shell">
-                                <i data-lucide="lock" class="w-4 h-4 text-sub-fixed"></i>
+                                <i data-lucide="lock" class="w-4 h-4 text-indigoJapanese-200"></i>
                                 <input type="password" id="loginPassword" placeholder="Enter your password" required>
                             </div>
                         </div>
 
                         <div class="flex items-center justify-between text-xs py-1">
-                            <label class="flex items-center gap-2 cursor-pointer text-sub-fixed">
+                            <label class="flex items-center gap-2 cursor-pointer text-indigoJapanese-200">
                                 <input type="checkbox" class="rounded bg-indigoJapanese-950 border-milk/20"> Remember me
                             </label>
-                            <a href="#" class="text-milk-fixed font-semibold hover:underline">Forgot password?</a>
+                            <a href="#" class="text-milk font-semibold hover:underline">Forgot password?</a>
                         </div>
 
                         <button type="submit" id="signinBtn" class="w-full py-3.5 rounded-xl bg-milk text-indigoJapanese-950 font-bold text-sm shadow-xl hover:bg-white transition-all flex items-center justify-center gap-2">
@@ -323,9 +323,9 @@
                         </button>
                     </form>
 
-                    <div class="mt-8 pt-6 border-t border-white/10 text-center text-xs text-sub-fixed space-y-2">
-                        <div>Don't have an account? <a href="#" id="goToSignup" class="text-milk-fixed font-bold hover:underline">Create one</a></div>
-                        <div><a href="#" class="backToWelcome text-sub-fixed hover:underline">← Back to welcome</a></div>
+                    <div class="mt-8 pt-6 border-t border-white/10 text-center text-xs text-indigoJapanese-200 space-y-2">
+                        <div>Don't have an account? <a href="#" id="goToSignup" class="text-milk font-bold hover:underline">Create one</a></div>
+                        <div><a href="#" class="backToWelcome text-indigoJapanese-100 hover:underline">← Back to welcome</a></div>
                     </div>
                 </div>
             </div>
@@ -345,40 +345,40 @@
                         </div>
                     </div>
 
-                    <h2 class="text-2xl font-bold mt-6 text-milk-fixed">Create Account</h2>
-                    <p class="text-xs text-sub-fixed mt-1 mb-6">Start building your AI-driven career path today.</p>
+                    <h2 class="text-2xl font-bold mt-6">Create Account</h2>
+                    <p class="text-xs text-indigoJapanese-200 mt-1 mb-6">Start building your AI-driven career path today.</p>
 
                     <div id="signupMsg" class="auth-message"></div>
 
                     <form id="signupForm" class="space-y-3.5">
                         <div>
-                            <label class="block text-xs text-sub-fixed mb-1 font-medium">Full Name</label>
+                            <label class="block text-xs text-indigoJapanese-200 mb-1 font-medium">Full Name</label>
                             <div class="input-shell">
-                                <i data-lucide="user" class="w-4 h-4 text-sub-fixed"></i>
+                                <i data-lucide="user" class="w-4 h-4 text-indigoJapanese-200"></i>
                                 <input type="text" id="signupName" placeholder="John Doe" required>
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs text-sub-fixed mb-1 font-medium">Email Address</label>
+                            <label class="block text-xs text-indigoJapanese-200 mb-1 font-medium">Email Address</label>
                             <div class="input-shell">
-                                <i data-lucide="mail" class="w-4 h-4 text-sub-fixed"></i>
+                                <i data-lucide="mail" class="w-4 h-4 text-indigoJapanese-200"></i>
                                 <input type="email" id="signupEmail" placeholder="you@example.com" required>
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs text-sub-fixed mb-1 font-medium">Password</label>
+                            <label class="block text-xs text-indigoJapanese-200 mb-1 font-medium">Password</label>
                             <div class="input-shell">
-                                <i data-lucide="lock" class="w-4 h-4 text-sub-fixed"></i>
+                                <i data-lucide="lock" class="w-4 h-4 text-indigoJapanese-200"></i>
                                 <input type="password" id="signupPassword" placeholder="Min. 6 characters" required>
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs text-sub-fixed mb-1 font-medium">Confirm Password</label>
+                            <label class="block text-xs text-indigoJapanese-200 mb-1 font-medium">Confirm Password</label>
                             <div class="input-shell">
-                                <i data-lucide="lock" class="w-4 h-4 text-sub-fixed"></i>
+                                <i data-lucide="lock" class="w-4 h-4 text-indigoJapanese-200"></i>
                                 <input type="password" id="signupConfirmPassword" placeholder="Confirm your password" required>
                             </div>
                         </div>
@@ -389,9 +389,9 @@
                         </button>
                     </form>
 
-                    <div class="mt-6 pt-5 border-t border-white/10 text-center text-xs text-sub-fixed space-y-2">
-                        <div>Already have an account? <a href="#" id="goToLoginFromSignup" class="text-milk-fixed font-bold hover:underline">Sign In</a></div>
-                        <div><a href="#" class="backToWelcome text-sub-fixed hover:underline">← Back to welcome</a></div>
+                    <div class="mt-6 pt-5 border-t border-white/10 text-center text-xs text-indigoJapanese-200 space-y-2">
+                        <div>Already have an account? <a href="#" id="goToLoginFromSignup" class="text-milk font-bold hover:underline">Sign In</a></div>
+                        <div><a href="#" class="backToWelcome text-indigoJapanese-100 hover:underline">← Back to welcome</a></div>
                     </div>
                 </div>
             </div>
@@ -423,7 +423,7 @@
         <!-- Sticky Header -->
         <header class="sticky top-0 z-30 glass-nav px-6 py-3.5 flex items-center justify-between gap-4">
             
-            <!-- 🌟 AGENT SYSTEM COMMAND NODE -->
+            <!-- 🌟 UNIQUE TOP LEFT COMPONENT: AGENT SYSTEM COMMAND NODE (Replaces Search Bar) -->
             <div class="flex items-center gap-3">
                 <div class="flex items-center gap-3 px-3.5 py-2 rounded-2xl bg-indigoJapanese-950/80 border border-milk/20 text-xs shadow-lg backdrop-blur-md">
                     <div class="relative flex items-center justify-center">
@@ -431,10 +431,10 @@
                         <span class="absolute w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping opacity-75"></span>
                     </div>
                     <div class="flex items-center gap-2 border-r border-milk/15 pr-3">
-                        <span class="font-display font-bold text-milk-fixed tracking-wide">CAREER OS</span>
-                        <span class="text-[9px] font-bold bg-milk/15 text-milk-fixed px-2 py-0.5 rounded-md uppercase tracking-wider">Node 01</span>
+                        <span class="font-display font-bold text-milk tracking-wide">CAREER OS</span>
+                        <span class="text-[9px] font-bold bg-milk/15 text-milk px-2 py-0.5 rounded-md uppercase tracking-wider">Node 01</span>
                     </div>
-                    <div class="hidden sm:flex items-center gap-2 text-[11px] text-sub-fixed font-medium">
+                    <div class="hidden sm:flex items-center gap-2 text-[11px] text-indigoJapanese-100 font-medium">
                         <i data-lucide="cpu" class="w-3.5 h-3.5 text-emerald-400"></i>
                         <span>Scout v2.5 • Strategist • Matcher</span>
                     </div>
@@ -443,19 +443,12 @@
 
             <!-- Right Header Elements -->
             <div class="flex items-center gap-3">
-                <div class="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-milk/15 border border-milk/20 text-xs text-milk-fixed font-semibold shadow-sm">
-                    <i data-lucide="clock" class="w-3.5 h-3.5 text-sub-fixed"></i>
+                <div class="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-milk/15 border border-milk/20 text-xs text-milk font-semibold shadow-sm">
+                    <i data-lucide="clock" class="w-3.5 h-3.5 text-indigoJapanese-100"></i>
                     <span id="live-clock">12:00:00 PM</span>
                 </div>
 
-                <!-- 🌟 RESUME ANALYZER BUTTON -->
-                <button onclick="toggleResumeModal()" id="header-resume-btn" class="glow-btn-secondary px-3.5 py-2 text-xs font-bold rounded-xl flex items-center gap-2 shadow-sm">
-                    <i data-lucide="file-text" class="w-4 h-4 text-emerald-600"></i>
-                    <span id="resume-btn-label" class="hidden md:inline">Upload Resume</span>
-                    <span id="resume-status-dot" class="w-2 h-2 rounded-full bg-amber-400"></span>
-                </button>
-
-                <!-- 🌟 NEURAL MATRIX PULSE TRIGGER -->
+                <!-- 🌟 UNIQUE TOP RIGHT COMPONENT: NEURAL MATRIX PULSE TRIGGER (Replaces Sync Button) -->
                 <button onclick="toggleMatrixModal()" class="glow-btn-secondary px-3.5 py-2 text-xs font-bold rounded-xl flex items-center gap-2.5 shadow-sm">
                     <div class="relative w-2 h-2">
                         <span class="w-2 h-2 rounded-full bg-blue-500 absolute inset-0"></span>
@@ -465,17 +458,17 @@
                     <span class="hidden md:inline">Neural Matrix</span>
                 </button>
 
-                <!-- 🌟 USER PROFILE -->
+                <!-- 🌟 TOP RIGHTMOST USER PROFILE (BOUND TO FIREBASE AUTH USERNAME) -->
                 <div class="relative group">
                     <div class="flex items-center gap-2.5 pl-2 border-l border-milk/20 cursor-pointer">
                         <div id="user-avatar-badge" class="w-8 h-8 rounded-full bg-milk text-indigoJapanese-950 font-extrabold text-xs flex items-center justify-center border border-milk shadow-md">
                             U
                         </div>
                         <div class="hidden sm:block text-left">
-                            <span id="user-display-name" class="text-xs font-extrabold text-milk-fixed block leading-tight">User Account</span>
-                            <span class="text-[10px] text-sub-fixed block font-medium">AI Career Architect</span>
+                            <span id="user-display-name" class="text-xs font-extrabold text-milk block leading-tight">User Account</span>
+                            <span class="text-[10px] text-indigoJapanese-100 block font-medium">AI Career Architect</span>
                         </div>
-                        <button id="logoutBtn" title="Sign Out" class="ml-1 p-1.5 text-sub-fixed hover:text-milk-fixed hover:bg-milk/10 rounded-lg transition-colors">
+                        <button id="logoutBtn" title="Sign Out" class="ml-1 p-1.5 text-indigoJapanese-100 hover:text-milk hover:bg-milk/10 rounded-lg transition-colors">
                             <i data-lucide="log-out" class="w-4 h-4"></i>
                         </button>
                     </div>
@@ -484,16 +477,16 @@
         </header>
 
         <!-- Dashboard Main Content -->
-        <main class="p-6 md:p-8 space-y-8 max-w-[1600px] mx-auto w-full flex-1">
+        <main class="p-6 md:p-8 space-y-8 max-w-7xl mx-auto w-full flex-1">
 
             <!-- Title Banner -->
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <div class="flex items-center gap-2 mb-1">
-                        <h1 class="text-2xl sm:text-3xl font-extrabold text-milk-fixed tracking-tight drop-shadow-sm font-display">CareerOS Multi-Agent Intelligence</h1>
+                        <h1 class="text-2xl sm:text-3xl font-extrabold text-milk tracking-tight drop-shadow-sm font-display">CareerOS Multi-Agent Intelligence</h1>
                         <span class="bg-milk text-indigoJapanese-950 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm">v2.5 Live Feeds</span>
                     </div>
-                    <p class="text-xs sm:text-sm text-sub-fixed drop-shadow-sm">Scout, Strategist, and Recruiter-Match agents running live via Python & Gemini AI.</p>
+                    <p class="text-xs sm:text-sm text-indigoJapanese-100 drop-shadow-sm">Scout, Strategist, and Recruiter-Match agents running live via Python & Gemini AI.</p>
                 </div>
             </div>
 
@@ -520,7 +513,7 @@
                             id="location-input"
                             type="text" 
                             placeholder="Location (e.g. Remote, Bangalore, Coimbatore)" 
-                            value="Remote"
+                            value="Coimbatore"
                             class="w-full px-4 py-2.5 text-xs font-medium glow-input rounded-xl text-indigoJapanese-950 focus:outline-none"
                             required
                         >
@@ -535,14 +528,14 @@
                 </form>
 
                 <p class="text-[11px] text-indigoJapanese-600 font-medium">
-                    Sources: LinkedIn, Unstop, RemoteOK, Arbeitnow, Devpost (live public feeds — no fake/synthetic listings).
+                    Sources: LinkedIn, Devpost, Unstop (live public feeds — no fake/synthetic listings).
                 </p>
             </div>
 
-            <!-- 📊 Dynamic Multi-Portal Output Grid (5 Columns Supported) -->
-            <div id="job-results-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 w-full">
+            <!-- 📊 3 Horizontal Platform Output Columns -->
+            <div id="job-results-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
                 <!-- Initial Empty State -->
-                <div class="col-span-full glass-card p-10 rounded-2xl text-center border border-milk/30">
+                <div class="col-span-full glass-card p-8 rounded-2xl text-center border border-milk/30">
                     <i data-lucide="search" class="w-8 h-8 mx-auto text-indigoJapanese-600 mb-2"></i>
                     <h3 class="font-bold text-indigoJapanese-950 text-sm">No Active Search Executed</h3>
                     <p class="text-xs text-indigoJapanese-600 mt-1">Enter a keyword and location above to trigger the Scout Agent.</p>
@@ -550,78 +543,6 @@
             </div>
 
         </main>
-    </div>
-
-    <!-- 📄 MODAL 1: RESUME UPLOAD MODAL -->
-    <div id="resume-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-indigoJapanese-950/70 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300 p-4">
-        <div class="glass-card max-w-lg w-full rounded-3xl p-6 shadow-2xl border border-milk space-y-5 text-indigoJapanese-950">
-            <div class="flex items-center justify-between pb-3 border-b border-indigoJapanese-900/10">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-xs">
-                        <i data-lucide="upload-cloud" class="w-4 h-4"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-extrabold text-base leading-tight font-display">Upload Candidate Resume</h3>
-                        <p class="text-xs text-indigoJapanese-600">Unlocks Recruiter-Match Agent & Match Score Predictions</p>
-                    </div>
-                </div>
-                <button onclick="toggleResumeModal()" class="text-indigoJapanese-600 hover:text-indigoJapanese-950">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
-
-            <div class="space-y-4">
-                <div class="border-2 border-dashed border-indigoJapanese-500/40 hover:border-indigoJapanese-700 bg-white/60 p-6 rounded-2xl text-center transition-all cursor-pointer" onclick="document.getElementById('resume-file-input').click()">
-                    <i data-lucide="file-up" class="w-8 h-8 mx-auto text-indigoJapanese-700 mb-2"></i>
-                    <p class="text-xs font-bold text-indigoJapanese-950">Click to upload or drag & drop</p>
-                    <p class="text-[10px] text-indigoJapanese-600 mt-0.5">Supports PDF, DOCX, TXT files</p>
-                    <input type="file" id="resume-file-input" class="hidden" accept=".pdf,.docx,.txt" onchange="handleFileSelected(event)">
-                </div>
-
-                <div id="file-status-box" class="hidden p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 flex items-center gap-2">
-                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
-                    <span id="uploaded-filename" class="font-bold"></span>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-bold text-indigoJapanese-950 mb-1">Or Paste Resume Text directly:</label>
-                    <textarea id="resume-text-input" rows="4" placeholder="Paste your key skills (Python, Django, React, SQL, Git, REST APIs), experience, and projects here..." class="w-full glow-input rounded-xl p-3 text-xs focus:outline-none"></textarea>
-                </div>
-            </div>
-
-            <div class="flex gap-2 pt-2">
-                <button onclick="toggleResumeModal()" class="flex-1 py-2.5 rounded-xl border border-indigoJapanese-900/20 font-bold text-xs hover:bg-gray-100">
-                    Cancel
-                </button>
-                <button onclick="saveUserResume()" class="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all">
-                    Activate Match Engine
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 📊 MODAL 2: RECRUITER MATCH PREDICTION MODAL -->
-    <div id="match-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-indigoJapanese-950/70 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300 p-4">
-        <div class="glass-card max-w-xl w-full rounded-3xl p-6 shadow-2xl border border-milk max-h-[85vh] overflow-y-auto space-y-4 text-indigoJapanese-950">
-            <div class="flex items-center justify-between pb-3 border-b border-indigoJapanese-900/10">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-xs">
-                        <i data-lucide="target" class="w-4 h-4"></i>
-                    </div>
-                    <div>
-                        <h3 id="match-modal-title" class="font-extrabold text-base leading-tight font-display">Recruiter Match Prediction</h3>
-                        <p id="match-modal-subtitle" class="text-xs text-indigoJapanese-600">AI Scoring against your candidate profile</p>
-                    </div>
-                </div>
-                <button onclick="closeMatchModal()" class="text-indigoJapanese-600 hover:text-indigoJapanese-950">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
-
-            <div id="match-modal-body" class="space-y-4 text-xs">
-                <!-- Populated dynamically via JS -->
-            </div>
-        </div>
     </div>
 
     <!-- 🧠 STRATEGIST AGENT ANALYSIS MODAL -->
@@ -648,7 +569,7 @@
         </div>
     </div>
 
-    <!-- ⚡ NEURAL MATRIX DIAGNOSTICS MODAL -->
+    <!-- ⚡ NEURAL MATRIX DIAGNOSTICS MODAL (Opened by Top-Right Component) -->
     <div id="matrix-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-indigoJapanese-950/70 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300 p-4">
         <div class="glass-card max-w-lg w-full rounded-3xl p-6 shadow-2xl border border-milk space-y-5 text-indigoJapanese-950">
             <div class="flex items-center justify-between pb-3 border-b border-indigoJapanese-900/10">
@@ -669,15 +590,15 @@
             <div class="space-y-3 text-xs">
                 <div class="flex justify-between items-center p-3 rounded-xl bg-indigoJapanese-100/70">
                     <span class="font-semibold text-indigoJapanese-950">Scout Agent Thread</span>
-                    <span class="text-emerald-700 font-bold">Active • 5 Live Feeds</span>
+                    <span class="text-emerald-700 font-bold">Active • 120ms Latency</span>
                 </div>
                 <div class="flex justify-between items-center p-3 rounded-xl bg-indigoJapanese-100/70">
                     <span class="font-semibold text-indigoJapanese-950">Gemini LLM Dissect Engine</span>
-                    <span class="text-emerald-700 font-bold">Operational • Gemini Flash</span>
+                    <span class="text-emerald-700 font-bold">Operational • Gemini 1.5 Flash</span>
                 </div>
                 <div class="flex justify-between items-center p-3 rounded-xl bg-indigoJapanese-100/70">
-                    <span class="font-semibold text-indigoJapanese-950">Recruiter Match Engine</span>
-                    <span id="matrix-match-status" class="text-amber-700 font-bold">Waiting for Resume Upload</span>
+                    <span class="font-semibold text-indigoJapanese-950">Live Feeds Monitored</span>
+                    <span class="text-blue-700 font-bold">LinkedIn, Devpost, Unstop</span>
                 </div>
             </div>
 
@@ -712,7 +633,7 @@
         <div id="chat-stream" class="h-64 overflow-y-auto space-y-3 pr-1 mb-3 text-xs">
             <div class="flex items-start gap-2">
                 <div class="p-3 rounded-2xl bg-indigoJapanese-100/70 text-indigoJapanese-950 max-w-[85%] leading-relaxed">
-                    Hello! I am monitoring your Scout Agent runs. Upload your resume above to calculate live Job Match Scores!
+                    Hello! I am monitoring your Scout Agent runs for LinkedIn, Devpost, and Unstop. Ask me anything!
                 </div>
             </div>
         </div>
@@ -733,7 +654,7 @@
 
 
     <!-- ================================================================= -->
-    <!-- SECTION 3: FIREBASE AUTHENTICATION SCRIPT MODULE                  -->
+    <!-- SECTION 3: FIREBASE AUTHENTICATION & DASHBOARD LOGIC SCRIPT MODULE -->
     <!-- ================================================================= -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -746,6 +667,7 @@
             signOut
         } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+        // Your Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyCaB1rfGuTALalKk39-RChzUnmW9pvW9nA",
             authDomain: "job-project-d6048.firebaseapp.com",
@@ -756,12 +678,14 @@
             measurementId: "G-SJYBKXWP6T"
         };
 
+        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
+        // Particle background generator
         const pContainer = document.getElementById('particles');
         if (pContainer) {
-            for(let i = 0; i < 25; i++){
+            for(let i = 0; i < 30; i++){
                 const p = document.createElement('div');
                 p.className = 'particle';
                 p.style.left = Math.random() * 100 + '%';
@@ -772,6 +696,7 @@
             }
         }
 
+        // Auth Navigation Pages
         const pageWelcome = document.getElementById('page-welcome');
         const pageLogin = document.getElementById('page-login');
         const pageSignup = document.getElementById('page-signup');
@@ -782,7 +707,6 @@
         const signupMsg = document.getElementById('signupMsg');
 
         function showMessage(element, text, type = 'error') {
-            if (!element) return;
             element.textContent = text;
             element.className = `auth-message ${type}`;
         }
@@ -794,38 +718,37 @@
 
         function switchAuthPage(targetPage) {
             clearMessages();
-            [pageWelcome, pageLogin, pageSignup].forEach(page => {
-                if (page) page.classList.remove('active');
-            });
-            if (targetPage) targetPage.classList.add('active');
+            [pageWelcome, pageLogin, pageSignup].forEach(page => page.classList.remove('active'));
+            targetPage.classList.add('active');
         }
 
-        document.getElementById('getStartedBtn')?.addEventListener('click', () => switchAuthPage(pageLogin));
-        document.getElementById('goToSignup')?.addEventListener('click', (e) => { e.preventDefault(); switchAuthPage(pageSignup); });
-        document.getElementById('goToLoginFromSignup')?.addEventListener('click', (e) => { e.preventDefault(); switchAuthPage(pageLogin); });
-        
+        // Navigation listeners
+        document.getElementById('getStartedBtn').addEventListener('click', () => switchAuthPage(pageLogin));
+        document.getElementById('goToSignup').addEventListener('click', (e) => { e.preventDefault(); switchAuthPage(pageSignup); });
+        document.getElementById('goToLoginFromSignup').addEventListener('click', (e) => { e.preventDefault(); switchAuthPage(pageLogin); });
         document.querySelectorAll('.backToWelcome').forEach(link => {
             link.addEventListener('click', (e) => { e.preventDefault(); switchAuthPage(pageWelcome); });
         });
 
+        // ================= FIREBASE SIGN UP LOGIC =================
         const signupForm = document.getElementById('signupForm');
-        signupForm?.addEventListener('submit', async (e) => {
+        signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             clearMessages();
 
-            const name = document.getElementById('signupName')?.value.trim();
-            const email = document.getElementById('signupEmail')?.value.trim();
-            const pw = document.getElementById('signupPassword')?.value;
-            const confirmPw = document.getElementById('signupConfirmPassword')?.value;
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const pw = document.getElementById('signupPassword').value;
+            const confirmPw = document.getElementById('signupConfirmPassword').value;
 
             if (pw !== confirmPw) {
                 showMessage(signupMsg, 'Passwords do not match.', 'error');
                 return;
             }
 
-            document.getElementById('signupSpinner')?.classList.remove('hidden');
-            if (document.getElementById('signupLabel')) document.getElementById('signupLabel').textContent = 'Creating...';
-            if (document.getElementById('signupBtn')) document.getElementById('signupBtn').disabled = true;
+            document.getElementById('signupSpinner').classList.remove('hidden');
+            document.getElementById('signupLabel').textContent = 'Creating...';
+            document.getElementById('signupBtn').disabled = true;
 
             try {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, pw);
@@ -834,72 +757,72 @@
                 }
                 showMessage(signupMsg, 'Account created successfully! Redirecting...', 'success');
             } catch (error) {
-                document.getElementById('signupSpinner')?.classList.add('hidden');
-                if (document.getElementById('signupLabel')) document.getElementById('signupLabel').textContent = 'Create Account';
-                if (document.getElementById('signupBtn')) document.getElementById('signupBtn').disabled = false;
+                document.getElementById('signupSpinner').classList.add('hidden');
+                document.getElementById('signupLabel').textContent = 'Create Account';
+                document.getElementById('signupBtn').disabled = false;
                 showMessage(signupMsg, error.message || 'Registration failed.', 'error');
             }
         });
 
+        // ================= FIREBASE SIGN IN LOGIC =================
         const loginForm = document.getElementById('loginForm');
-        loginForm?.addEventListener('submit', async (e) => {
+        loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             clearMessages();
 
-            const email = document.getElementById('loginEmail')?.value.trim();
-            const pw = document.getElementById('loginPassword')?.value;
+            const email = document.getElementById('loginEmail').value.trim();
+            const pw = document.getElementById('loginPassword').value;
 
-            document.getElementById('loginSpinner')?.classList.remove('hidden');
-            if (document.getElementById('signinLabel')) document.getElementById('signinLabel').textContent = 'Authenticating...';
-            if (document.getElementById('signinBtn')) document.getElementById('signinBtn').disabled = true;
+            document.getElementById('loginSpinner').classList.remove('hidden');
+            document.getElementById('signinLabel').textContent = 'Authenticating...';
+            document.getElementById('signinBtn').disabled = true;
 
             try {
                 await signInWithEmailAndPassword(auth, email, pw);
                 showMessage(loginMsg, 'Success! Redirecting to Dashboard...', 'success');
             } catch (error) {
-                document.getElementById('loginSpinner')?.classList.add('hidden');
-                if (document.getElementById('signinLabel')) document.getElementById('signinLabel').textContent = 'Sign In';
-                if (document.getElementById('signinBtn')) document.getElementById('signinBtn').disabled = false;
+                document.getElementById('loginSpinner').classList.add('hidden');
+                document.getElementById('signinLabel').textContent = 'Sign In';
+                document.getElementById('signinBtn').disabled = false;
                 showMessage(loginMsg, 'Invalid email or password.', 'error');
             }
         });
 
+        // ================= FIREBASE AUTH STATE LISTENER =================
         onAuthStateChanged(auth, (user) => {
             if (user) {
+                // User is signed in -> Render Dashboard & Display Username
                 const displayName = user.displayName || user.email.split('@')[0];
                 const initial = displayName.charAt(0).toUpperCase();
 
-                if (document.getElementById('user-display-name')) document.getElementById('user-display-name').textContent = displayName;
-                if (document.getElementById('user-avatar-badge')) document.getElementById('user-avatar-badge').textContent = initial;
+                document.getElementById('user-display-name').textContent = displayName;
+                document.getElementById('user-avatar-badge').textContent = initial;
 
-                appAuthContainer?.classList.add('hidden');
-                appDashboardContainer?.classList.remove('hidden');
-                if (window.lucide) lucide.createIcons();
+                // Hide Auth, Show Dashboard
+                appAuthContainer.classList.add('hidden');
+                appDashboardContainer.classList.remove('hidden');
+                lucide.createIcons();
             } else {
-                appAuthContainer?.classList.remove('hidden');
-                appDashboardContainer?.classList.add('hidden');
+                // User signed out -> Show Auth
+                appAuthContainer.classList.remove('hidden');
+                appDashboardContainer.classList.add('hidden');
                 switchAuthPage(pageWelcome);
             }
         });
 
-        document.getElementById('logoutBtn')?.addEventListener('click', () => {
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', () => {
             signOut(auth);
         });
     </script>
 
     <!-- ================================================================= -->
-    <!-- SECTION 4: DASHBOARD & AGENTIC AI SCRIPT                         -->
+    <!-- SECTION 4: DASHBOARD INTERACTION JAVASCRIPT                       -->
     <!-- ================================================================= -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (window.lucide) lucide.createIcons();
-        });
+        lucide.createIcons();
 
-        // Global state tracking
-        window.jobMap = {};
-        let isResumeUploaded = false;
-        let uploadedResumeData = { filename: '', text: '' };
-        let currentSearchData = {};
+        const ALLOWED_PORTALS = ["LinkedIn", "Devpost", "Unstop"];
 
         function updateClock() {
             const now = new Date();
@@ -912,7 +835,6 @@
 
         function triggerToast(title, desc) {
             const toast = document.getElementById('toast');
-            if (!toast) return;
             document.getElementById('toast-title').textContent = title;
             document.getElementById('toast-desc').textContent = desc;
 
@@ -925,60 +847,6 @@
             }, 3500);
         }
 
-        /* --- RESUME ANALYZER FUNCTIONS --- */
-        function toggleResumeModal() {
-            const modal = document.getElementById('resume-modal');
-            modal?.classList.toggle('opacity-0');
-            modal?.classList.toggle('pointer-events-none');
-        }
-
-        function handleFileSelected(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            uploadedResumeData.filename = file.name;
-            document.getElementById('uploaded-filename').textContent = `File selected: ${file.name}`;
-            document.getElementById('file-status-box').classList.remove('hidden');
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                uploadedResumeData.text = e.target.result;
-            };
-            reader.readAsText(file);
-        }
-
-        function saveUserResume() {
-            const textInput = document.getElementById('resume-text-input').value.trim();
-            if (textInput) {
-                uploadedResumeData.text = textInput;
-                if (!uploadedResumeData.filename) uploadedResumeData.filename = 'pasted_resume.txt';
-            }
-
-            if (!uploadedResumeData.text && !uploadedResumeData.filename) {
-                alert('Please upload a resume file or paste your resume text first.');
-                return;
-            }
-
-            isResumeUploaded = true;
-            toggleResumeModal();
-
-            document.getElementById('resume-status-dot').className = "w-2 h-2 rounded-full bg-emerald-400 animate-pulse";
-            document.getElementById('resume-btn-label').textContent = "Resume Active";
-            
-            const matrixStatus = document.getElementById('matrix-match-status');
-            if (matrixStatus) {
-                matrixStatus.textContent = "Ready • Recruiter Engine Active";
-                matrixStatus.className = "text-emerald-700 font-bold";
-            }
-
-            triggerToast('Resume Loaded', 'AI Match Engine unlocked! You can now calculate Match Scores on job cards.');
-
-            if (Object.keys(currentSearchData).length > 0) {
-                renderJobResults(currentSearchData);
-            }
-        }
-
-        /* --- SEARCH & CARD RENDERING --- */
         async function handleSearchSubmit(event) {
             event.preventDefault();
             const role = document.getElementById('query-input').value.trim();
@@ -986,7 +854,7 @@
 
             if (!role || !location) return;
 
-            triggerToast('Scout Agent Executing', `Scanning portals for "${role}"...`);
+            triggerToast('Scout Agent Executing', `Scanning LinkedIn, Devpost, & Unstop for "${role}"...`);
             renderLoadingState();
 
             try {
@@ -1003,8 +871,7 @@
                 const data = await response.json();
                 if (data.error) throw new Error(data.error);
 
-                currentSearchData = data.sources || {};
-                renderJobResults(currentSearchData);
+                renderJobResults(data.sources || {});
                 triggerToast('Scout Complete', 'Retrieved live listings.');
 
             } catch (error) {
@@ -1020,43 +887,27 @@
 
         function renderLoadingState() {
             const grid = document.getElementById('job-results-grid');
-            if (!grid) return;
             grid.innerHTML = `
                 <div class="col-span-full glass-card p-12 rounded-2xl text-center border border-milk/30 animate-pulse space-y-3">
                     <i data-lucide="refresh-cw" class="w-8 h-8 mx-auto text-indigoJapanese-700 animate-spin"></i>
                     <h3 class="font-bold text-indigoJapanese-950 text-sm">Scout Agent Scanning Live Portals...</h3>
-                    <p class="text-xs text-indigoJapanese-600">Retrieving listings from LinkedIn, Unstop, RemoteOK, Arbeitnow, and Devpost.</p>
+                    <p class="text-xs text-indigoJapanese-600">Retrieving listings from LinkedIn, Devpost, and Unstop.</p>
                 </div>
             `;
-            if (window.lucide) lucide.createIcons();
+            lucide.createIcons();
         }
 
         function renderJobResults(sources) {
             const gridContainer = document.getElementById('job-results-grid');
-            if (!gridContainer) return;
             gridContainer.innerHTML = '';
-            window.jobMap = {}; // Reset safe lookup dictionary
-
-            const portalNames = Object.keys(sources);
-
-            if (portalNames.length === 0) {
-                gridContainer.innerHTML = `
-                    <div class="col-span-full glass-card p-8 rounded-2xl text-center border border-milk/30">
-                        <p class="text-xs font-bold text-indigoJapanese-950">No opportunities found for this query.</p>
-                    </div>
-                `;
-                return;
-            }
 
             const portalBorderColors = {
                 "LinkedIn": "border-t-blue-600",
-                "Unstop": "border-t-amber-500",
-                "RemoteOK": "border-t-rose-500",
-                "Arbeitnow": "border-t-purple-600",
-                "Devpost": "border-t-indigo-600"
+                "Devpost": "border-t-indigo-600",
+                "Unstop": "border-t-amber-500"
             };
 
-            portalNames.forEach(portalName => {
+            ALLOWED_PORTALS.forEach(portalName => {
                 const items = sources[portalName] || [];
                 const topBorderClass = portalBorderColors[portalName] || "border-t-indigoJapanese-700";
 
@@ -1078,32 +929,22 @@
                 if (items.length === 0) {
                     listContainer.innerHTML = `<p class="text-xs text-indigoJapanese-600 italic p-2">No active postings found.</p>`;
                 } else {
-                    items.forEach((item, idx) => {
-                        const jobId = `${portalName.toLowerCase()}_${idx}`;
-                        window.jobMap[jobId] = item;
-
+                    items.forEach(item => {
                         const card = document.createElement('div');
                         card.className = "p-3.5 rounded-xl bg-white/90 border border-indigoJapanese-900/10 hover:border-indigoJapanese-900/30 transition-all flex flex-col justify-between gap-2 shadow-sm";
 
-                        const matchBtnHtml = isResumeUploaded 
-                            ? `<button onclick="handleMatchClick('${jobId}')" class="text-[11px] font-semibold text-blue-600 border border-blue-500 hover:bg-blue-50 px-2 py-1 rounded-md transition-colors flex items-center gap-1">
-                                    <i data-lucide="target" class="w-3 h-3"></i> Match
-                               </button>`
-                            : `<button onclick="handleMatchClick('${jobId}')" class="text-[11px] font-semibold text-gray-400 border border-gray-300 hover:border-amber-500 hover:text-amber-700 px-2 py-1 rounded-md transition-colors flex items-center gap-1" title="Upload Resume First">
-                                    <i data-lucide="lock" class="w-3 h-3 text-amber-500"></i> Match
-                               </button>`;
+                        const safeItemJson = escapeHtml(JSON.stringify(item));
 
                         card.innerHTML = `
                             <div>
                                 <h4 class="font-bold text-xs sm:text-sm text-indigoJapanese-950 leading-snug">${escapeHtml(item.title)}</h4>
                                 <p class="text-[11px] text-indigoJapanese-600 font-medium">${escapeHtml(item.company)} • ${escapeHtml(item.location)}</p>
                             </div>
-                            <div class="flex items-center justify-between pt-1 gap-1">
-                                <button onclick="triggerAnalysisModal('${jobId}')" class="text-[11px] font-semibold text-emerald-600 border border-emerald-500 hover:bg-emerald-50 px-2 py-1 rounded-md transition-colors">
+                            <div class="flex items-center justify-between pt-1">
+                                <button onclick='triggerAnalysisModal(${safeItemJson})' class="text-[11px] font-semibold text-emerald-600 border border-emerald-500 hover:bg-emerald-50 px-2.5 py-1 rounded-md transition-colors">
                                     Analysis
                                 </button>
-                                ${matchBtnHtml}
-                                <a href="${item.link || item.url || '#'}" target="_blank" rel="noopener noreferrer" class="text-[11px] font-semibold text-gray-700 border border-gray-400 hover:bg-gray-100 px-2.5 py-1 rounded-md transition-colors inline-block">
+                                <a href="${item.link || '#'}" target="_blank" rel="noopener noreferrer" class="text-[11px] font-semibold text-blue-600 border border-blue-500 hover:bg-blue-50 px-3 py-1 rounded-md transition-colors inline-block">
                                     View
                                 </a>
                             </div>
@@ -1116,176 +957,26 @@
                 gridContainer.appendChild(column);
             });
 
-            if (window.lucide) lucide.createIcons();
+            lucide.createIcons();
         }
 
-        /* --- RECRUITER MATCH SCORE PREDICTION ENGINE (POST /api/match) --- */
-        async function handleMatchClick(jobId) {
-            const job = window.jobMap[jobId];
-            if (!job) return;
-
-            if (!isResumeUploaded) {
-                alert("Please upload or paste your resume first using the top right button.");
-                toggleResumeModal();
-                return;
-            }
-
-            const matchModal = document.getElementById('match-modal');
-            const titleEl = document.getElementById('match-modal-title');
-            const subEl = document.getElementById('match-modal-subtitle');
-            const bodyEl = document.getElementById('match-modal-body');
-
-            if (titleEl) titleEl.textContent = `${job.title} — Match Score`;
-            if (subEl) subEl.textContent = `${job.company} • ${job.location}`;
-
-            if (bodyEl) {
-                bodyEl.innerHTML = `
-                    <div class="p-8 text-center space-y-2">
-                        <i data-lucide="target" class="w-8 h-8 mx-auto text-blue-600 animate-spin"></i>
-                        <p class="font-bold text-xs text-indigoJapanese-950">Running Dissection & Recruiter Match Engine...</p>
-                        <p class="text-[11px] text-indigoJapanese-600">Cross-checking candidate CV skills against live job posting...</p>
-                    </div>
-                `;
-            }
-            if (window.lucide) lucide.createIcons();
-            matchModal?.classList.remove('opacity-0', 'pointer-events-none');
-
-            try {
-                // 1. Fetch Strategist Analysis from POST /api/analyze
-                const analysisRes = await fetch('/api/analyze', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        title: job.title,
-                        company: job.company,
-                        location: job.location,
-                        link: job.link || job.url || ''
-                    })
-                });
-
-                const analysisData = await analysisRes.json();
-                const strategistAnalysis = analysisData.analysis || {};
-
-                // 2. Extract Candidate Profile from Resume Text
-                const extractedSkills = extractSkillsFromText(uploadedResumeData.text);
-                const studentProfile = {
-                    skills: extractedSkills.length > 0 ? extractedSkills : ["Python", "Git", "REST APIs", "SQL", "Communication"],
-                    years_experience: 1.5,
-                    location_preference: "Remote",
-                    interests: [job.title || "Software"]
-                };
-
-                // 3. Call Recruiter Match Endpoint POST /api/match
-                const response = await fetch('/api/match', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        job: job,
-                        strategist_analysis: strategistAnalysis,
-                        student_profile: studentProfile
-                    })
-                });
-
-                const data = await response.json();
-                if (data.error) throw new Error(data.error);
-
-                const match = data.match || {};
-                const fitScore = match.fit_score ?? 75;
-                const verdict = match.verdict || "Good Fit";
-                const bd = match.breakdown || {};
-
-                if (bodyEl) {
-                    bodyEl.innerHTML = `
-                        <div class="space-y-4">
-                            <div class="p-4 bg-indigoJapanese-950 text-milk rounded-2xl flex items-center justify-between shadow-md">
-                                <div>
-                                    <span class="text-[10px] uppercase font-bold text-indigoJapanese-200 block">Recruiter Verdict</span>
-                                    <h4 class="text-base font-extrabold text-milk-fixed">${escapeHtml(verdict)}</h4>
-                                </div>
-                                <div class="text-right">
-                                    <span class="text-2xl font-black text-emerald-400 font-display">${fitScore}%</span>
-                                    <span class="block text-[10px] text-indigoJapanese-200">Candidate Fit Score</span>
-                                </div>
-                            </div>
-
-                            <div class="space-y-2">
-                                <h5 class="font-bold text-xs text-indigoJapanese-900">Score Breakdown</h5>
-                                
-                                <div class="p-3 rounded-xl bg-white/90 border border-indigoJapanese-900/10 space-y-1.5">
-                                    <div class="flex items-center justify-between text-xs font-bold">
-                                        <span>Skill Overlap (45% Weight)</span>
-                                        <span class="text-emerald-700">${bd.skill_overlap?.score ?? 0}%</span>
-                                    </div>
-                                    <div class="text-[11px]">
-                                        <span class="font-semibold text-emerald-800">Matched: </span>
-                                        <span>${(bd.skill_overlap?.matched || []).join(', ') || 'None'}</span>
-                                    </div>
-                                    ${(bd.skill_overlap?.missing || []).length > 0 ? `
-                                        <div class="text-[11px]">
-                                            <span class="font-semibold text-amber-700">Missing Gaps: </span>
-                                            <span>${bd.skill_overlap.missing.join(', ')}</span>
-                                        </div>
-                                    ` : ''}
-                                </div>
-
-                                <div class="p-2.5 rounded-xl bg-white/90 border border-indigoJapanese-900/10 flex items-center justify-between">
-                                    <span class="font-medium text-xs">Experience Alignment (25% Weight)</span>
-                                    <span class="font-bold text-indigoJapanese-950">${bd.experience_alignment?.score ?? 0}%</span>
-                                </div>
-
-                                <div class="p-2.5 rounded-xl bg-white/90 border border-indigoJapanese-900/10 flex items-center justify-between">
-                                    <span class="font-medium text-xs">Location Compatibility (20% Weight)</span>
-                                    <span class="font-bold text-indigoJapanese-950">${bd.location_compatibility?.score ?? 0}%</span>
-                                </div>
-
-                                <div class="p-2.5 rounded-xl bg-white/90 border border-indigoJapanese-900/10 flex items-center justify-between">
-                                    <span class="font-medium text-xs">Interest & Domain Fit (10% Weight)</span>
-                                    <span class="font-bold text-indigoJapanese-950">${bd.interest_alignment?.score ?? 0}%</span>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }
-
-            } catch (err) {
-                if (bodyEl) {
-                    bodyEl.innerHTML = `
-                        <div class="p-4 bg-red-50 text-red-700 rounded-xl font-medium text-xs">
-                            Failed to compute recruiter fit: ${escapeHtml(err.message)}
-                        </div>
-                    `;
-                }
-            }
-        }
-
-        function closeMatchModal() {
-            document.getElementById('match-modal')?.classList.add('opacity-0', 'pointer-events-none');
-        }
-
-        /* --- STRATEGIST AGENT (POST /api/analyze) --- */
-        async function triggerAnalysisModal(jobId) {
-            const job = window.jobMap[jobId];
-            if (!job) return;
-
+        async function triggerAnalysisModal(job) {
             const modal = document.getElementById('analysis-modal');
             const titleEl = document.getElementById('modal-role-title');
             const infoEl = document.getElementById('modal-company-info');
             const bodyEl = document.getElementById('modal-body-content');
 
-            if (titleEl) titleEl.textContent = job.title;
-            if (infoEl) infoEl.textContent = `${job.company} • ${job.location}`;
+            titleEl.textContent = job.title;
+            infoEl.textContent = `${job.company} • ${job.location}`;
 
-            if (bodyEl) {
-                bodyEl.innerHTML = `
-                    <div class="p-8 text-center space-y-2">
-                        <i data-lucide="cpu" class="w-8 h-8 mx-auto text-emerald-600 animate-spin"></i>
-                        <p class="font-bold text-xs text-indigoJapanese-950">Strategist Agent Dissecting Posting...</p>
-                        <p class="text-[11px] text-indigoJapanese-600">Scraping text, extracting hard/soft skills, roadmap & interview questions.</p>
-                    </div>
-                `;
-            }
-            if (window.lucide) lucide.createIcons();
-            modal?.classList.remove('opacity-0', 'pointer-events-none');
+            bodyEl.innerHTML = `
+                <div class="p-8 text-center space-y-2">
+                    <i data-lucide="cpu" class="w-8 h-8 mx-auto text-emerald-600 animate-spin"></i>
+                    <p class="font-bold text-xs text-indigoJapanese-950">Strategist Agent Dissecting Posting...</p>
+                </div>
+            `;
+            lucide.createIcons();
+            modal.classList.remove('opacity-0', 'pointer-events-none');
 
             try {
                 const response = await fetch('/api/analyze', {
@@ -1295,7 +986,7 @@
                         title: job.title,
                         company: job.company,
                         location: job.location,
-                        link: job.link || job.url || ''
+                        link: job.link
                     })
                 });
 
@@ -1304,71 +995,67 @@
 
                 const analysis = data.analysis;
 
-                if (bodyEl) {
-                    bodyEl.innerHTML = `
-                        <div class="space-y-4">
-                            <div class="p-3 bg-indigoJapanese-50 rounded-xl border border-indigoJapanese-100">
-                                <h5 class="font-bold text-xs text-indigoJapanese-900 mb-1">Role Summary</h5>
-                                <p class="text-indigoJapanese-700 leading-relaxed">${escapeHtml(analysis.job_description || 'N/A')}</p>
-                            </div>
+                bodyEl.innerHTML = `
+                    <div class="space-y-4">
+                        <div class="p-3 bg-indigoJapanese-50 rounded-xl border border-indigoJapanese-100">
+                            <h5 class="font-bold text-xs text-indigoJapanese-900 mb-1">Role Summary</h5>
+                            <p class="text-indigoJapanese-700 leading-relaxed">${escapeHtml(analysis.job_description || 'N/A')}</p>
+                        </div>
 
-                            <div>
-                                <h5 class="font-bold text-xs text-indigoJapanese-900 mb-1.5">Required Hard Skills</h5>
-                                <div class="flex flex-wrap gap-1.5">
-                                    ${(analysis.hard_skills || []).map(skill => `<span class="px-2.5 py-0.5 rounded-md bg-emerald-100 text-emerald-900 font-bold text-[10px]">${escapeHtml(skill)}</span>`).join('')}
-                                </div>
-                            </div>
-
-                            <div>
-                                <h5 class="font-bold text-xs text-indigoJapanese-900 mb-1.5">Required Soft Skills</h5>
-                                <div class="flex flex-wrap gap-1.5">
-                                    ${(analysis.soft_skills || []).map(skill => `<span class="px-2.5 py-0.5 rounded-md bg-indigoJapanese-100 text-indigoJapanese-900 font-medium text-[10px]">${escapeHtml(skill)}</span>`).join('')}
-                                </div>
-                            </div>
-
-                            <div>
-                                <h5 class="font-bold text-xs text-indigoJapanese-900 mb-1">Skill Gap Roadmap</h5>
-                                <ul class="list-disc list-inside space-y-1 text-indigoJapanese-700 pl-1">
-                                    ${(analysis.skill_gap_roadmap || []).map(step => `<li>${escapeHtml(step)}</li>`).join('')}
-                                </ul>
-                            </div>
-
-                            <div>
-                                <h5 class="font-bold text-xs text-indigoJapanese-900 mb-1">Interview Prep Questions</h5>
-                                <ul class="list-disc list-inside space-y-1 text-indigoJapanese-700 pl-1">
-                                    ${(analysis.interview_prep_questions || []).map(q => `<li>${escapeHtml(q)}</li>`).join('')}
-                                </ul>
+                        <div>
+                            <h5 class="font-bold text-xs text-indigoJapanese-900 mb-1.5">Required Hard Skills</h5>
+                            <div class="flex flex-wrap gap-1.5">
+                                ${(analysis.hard_skills || []).map(skill => `<span class="px-2.5 py-0.5 rounded-md bg-emerald-100 text-emerald-900 font-bold text-[10px]">${escapeHtml(skill)}</span>`).join('')}
                             </div>
                         </div>
-                    `;
-                }
+
+                        <div>
+                            <h5 class="font-bold text-xs text-indigoJapanese-900 mb-1.5">Required Soft Skills</h5>
+                            <div class="flex flex-wrap gap-1.5">
+                                ${(analysis.soft_skills || []).map(skill => `<span class="px-2.5 py-0.5 rounded-md bg-indigoJapanese-100 text-indigoJapanese-900 font-medium text-[10px]">${escapeHtml(skill)}</span>`).join('')}
+                            </div>
+                        </div>
+
+                        <div>
+                            <h5 class="font-bold text-xs text-indigoJapanese-900 mb-1">Skill Gap Roadmap</h5>
+                            <ul class="list-disc list-inside space-y-1 text-indigoJapanese-700 pl-1">
+                                ${(analysis.skill_gap_roadmap || []).map(step => `<li>${escapeHtml(step)}</li>`).join('')}
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h5 class="font-bold text-xs text-indigoJapanese-900 mb-1">Interview Prep Questions</h5>
+                            <ul class="list-disc list-inside space-y-1 text-indigoJapanese-700 pl-1">
+                                ${(analysis.interview_prep_questions || []).map(q => `<li>${escapeHtml(q)}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `;
 
             } catch (err) {
-                if (bodyEl) {
-                    bodyEl.innerHTML = `
-                        <div class="p-4 bg-red-50 text-red-700 rounded-xl font-medium text-xs">
-                            Failed to dissect posting: ${escapeHtml(err.message)}
-                        </div>
-                    `;
-                }
+                bodyEl.innerHTML = `
+                    <div class="p-4 bg-red-50 text-red-700 rounded-xl font-medium text-xs">
+                        Failed to dissect posting: ${escapeHtml(err.message)}
+                    </div>
+                `;
             }
         }
 
         function closeAnalysisModal() {
-            document.getElementById('analysis-modal')?.classList.add('opacity-0', 'pointer-events-none');
+            document.getElementById('analysis-modal').classList.add('opacity-0', 'pointer-events-none');
         }
 
         function toggleMatrixModal() {
             const modal = document.getElementById('matrix-modal');
-            modal?.classList.toggle('opacity-0');
-            modal?.classList.toggle('pointer-events-none');
+            modal.classList.toggle('opacity-0');
+            modal.classList.toggle('pointer-events-none');
         }
 
         function toggleChatModal() {
             const modal = document.getElementById('ai-chat-modal');
-            modal?.classList.toggle('opacity-0');
-            modal?.classList.toggle('pointer-events-none');
-            modal?.classList.toggle('translate-y-4');
+            modal.classList.toggle('opacity-0');
+            modal.classList.toggle('pointer-events-none');
+            modal.classList.toggle('translate-y-4');
         }
 
         async function handleChatSubmit(event) {
@@ -1376,12 +1063,12 @@
             const inputField = document.getElementById('user-input');
             const sendBtn = document.getElementById('send-btn');
             const chatStream = document.getElementById('chat-stream');
-            const userQuery = inputField?.value.trim();
+            const userQuery = inputField.value.trim();
 
             if (!userQuery) return;
 
-            if (inputField) inputField.disabled = true;
-            if (sendBtn) sendBtn.disabled = true;
+            inputField.disabled = true;
+            sendBtn.disabled = true;
 
             const userBubble = document.createElement('div');
             userBubble.className = 'flex justify-end';
@@ -1390,36 +1077,25 @@
                     ${escapeHtml(userQuery)}
                 </div>
             `;
-            chatStream?.appendChild(userBubble);
-            if (inputField) inputField.value = '';
-            if (chatStream) chatStream.scrollTop = chatStream.scrollHeight;
+            chatStream.appendChild(userBubble);
+            inputField.value = '';
+            chatStream.scrollTop = chatStream.scrollHeight;
 
             setTimeout(() => {
                 const aiBubble = document.createElement('div');
                 aiBubble.className = 'flex items-start gap-2';
                 aiBubble.innerHTML = `
                     <div class="p-3 rounded-2xl bg-indigoJapanese-100/70 text-indigoJapanese-950 max-w-[85%] leading-relaxed whitespace-pre-wrap">
-                        I am monitoring your live feeds for LinkedIn, Devpost, Unstop, RemoteOK, and Arbeitnow!
+                        I am monitoring your live feeds for LinkedIn, Devpost, and Unstop!
                     </div>
                 `;
-                chatStream?.appendChild(aiBubble);
-                if (chatStream) chatStream.scrollTop = chatStream.scrollHeight;
+                chatStream.appendChild(aiBubble);
+                chatStream.scrollTop = chatStream.scrollHeight;
 
-                if (inputField) { inputField.disabled = false; inputField.focus(); }
-                if (sendBtn) sendBtn.disabled = false;
+                inputField.disabled = false;
+                sendBtn.disabled = false;
+                inputField.focus();
             }, 500);
-        }
-
-        // Helper to extract known skills from resume text
-        function extractSkillsFromText(text) {
-            if (!text) return [];
-            const commonSkills = [
-                "Python", "Django", "Flask", "FastAPI", "Java", "Spring Boot", "JavaScript", "TypeScript",
-                "React", "Angular", "Vue", "Node.js", "Express", "SQL", "PostgreSQL", "MySQL", "MongoDB",
-                "AWS", "Docker", "Kubernetes", "Git", "REST", "Machine Learning", "C++", "C#", "Communication"
-            ];
-            const lower = text.toLowerCase();
-            return commonSkills.filter(skill => lower.includes(skill.toLowerCase()));
         }
 
         function escapeHtml(text) {
