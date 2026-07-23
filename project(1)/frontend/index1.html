@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerOS — Agentic AI Platform</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Sora & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        milk: '#FFFCF1',
+                        indigoJapanese: {
+                            950: '#0A1520',
+                            900: '#0D1F2D',
+                            800: '#142D40',
+                            700: '#1B3B50',
+                            600: '#254E6B',
+                            500: '#32668A',
+                            200: '#C3CBD2',
+                            100: '#E4ECF2',
+                            50:  '#F2F6F9',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Sora', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        'sdt': '20px',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --bg-indigo-dark:#091724;
+            --milk-white:#FFFCF1;
+            --milk-white-pure:#FAF8F5;
+            --text-indigo:#091724;
+            --text-light:#FFFCF1;
+            --glass-indigo: rgba(9, 23, 36, 0.85);
+            --glass-border: rgba(255, 252, 241, 0.25);
+            --radius: 20px;
+            --error-red: #FF6B6B;
+            --success-green: #51CF66;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0D1F2D 0%, #1B3B50 25%, #32668A 55%, #E4ECF2 80%, #FFFCF1 100%);
+            background-attachment: fixed;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #FAF8F5;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .text-milk-fixed { color: #FFFCF1 !important; }
+        .text-sub-fixed { color: #E4ECF2 !important; }
+
+        .glass-card {
+            background: rgba(255, 252, 241, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 252, 241, 0.4);
+            position: relative;
+            color: #0D1F2D;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-nav {
+            background: rgba(13, 31, 45, 0.88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 252, 241, 0.15);
+        }
+
+        .glow-card:hover {
+            transform: translateY(-4px) scale(1.002);
+            border-color: rgba(255, 252, 241, 0.8);
+            box-shadow: 0 0 30px rgba(50, 102, 138, 0.4);
+        }
+
+        .glow-btn-primary {
+            background: #0D1F2D;
+            color: #FFFCF1;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(255, 252, 241, 0.3);
+        }
+        .glow-btn-primary:hover:not(:disabled) {
+            background: #1B3B50;
+            transform: translateY(-2px);
+        }
+
+        .glow-btn-secondary {
+            background: rgba(255, 252, 241, 0.9);
+            border: 1px solid rgba(13, 31, 45, 0.2);
+            color: #0D1F2D;
+            transition: all 0.3s ease;
+        }
+        .glow-btn-secondary:hover {
+            border-color: #0D1F2D;
+            background: #FFFFFF;
+            transform: translateY(-2px);
+        }
+
+        .glow-input {
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(13, 31, 45, 0.2);
+            color: #0D1F2D;
+        }
+        .glow-input:focus {
+            outline: none;
+            border-color: #1B3B50;
+            background: #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(27, 59, 80, 0.25);
+        }
+
+        /* ===== AUTH STYLING ===== */
+        .atmosphere {
+            position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+            background: linear-gradient(130deg, #07121D 0%, #10273A 28%, #1E4666 58%, #8FA9BC 82%, #EFECE6 100%);
+        }
+        .blob {
+            position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.3;
+            animation: drift 22s ease-in-out infinite;
+        }
+        .blob.b1 { width: 560px; height: 560px; background: #183B57; top: -140px; left: -120px; }
+        .blob.b2 { width: 460px; height: 460px; background: #3D6F94; bottom: -160px; right: -100px; animation-delay: -8s; }
+        .blob.b3 { width: 360px; height: 360px; background: #EFECE6; top: 35%; left: 65%; opacity: 0.15; animation-delay: -14s; }
+        
+        @keyframes drift {
+            0%,100% { transform: translate(0,0) scale(1); }
+            33% { transform: translate(40px,-30px) scale(1.08); }
+            66% { transform: translate(-30px,25px) scale(0.95); }
+        }
+
+        .particle {
+            position: absolute; width: 3px; height: 3px; border-radius: 50%;
+            background: var(--milk-white); opacity: 0.4;
+            animation: float-up linear infinite;
+        }
+        @keyframes float-up {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
+        }
+
+        .auth-page {
+            display: none !important;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+        .auth-page.active {
+            display: block !important;
+            opacity: 1 !important;
+        }
+
+        .login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 48px 20px; }
+        .login-card {
+            width: 100%; max-width: 440px;
+            background: var(--glass-indigo); 
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius); padding: 42px 38px 34px;
+            backdrop-filter: blur(24px);
+            box-shadow: 0 30px 80px -20px rgba(0,0,0,0.6);
+            color: #FFFFFF;
+        }
+
+        .auth-message {
+            padding: 11px 14px; border-radius: 10px; font-size: 12.5px; font-weight: 500; margin-bottom: 18px; display: none;
+        }
+        .auth-message.error { display: block; background: rgba(255, 107, 107, 0.15); border: 1px solid rgba(255, 107, 107, 0.35); color: var(--error-red); }
+        .auth-message.success { display: block; background: rgba(81, 207, 102, 0.15); border: 1px solid rgba(81, 207, 102, 0.35); color: var(--success-green); }
+
+        .input-shell {
+            display: flex; align-items: center; gap: 10px;
+            background: rgba(6, 16, 25, 0.65); border: 1px solid var(--glass-border);
+            border-radius: 12px; padding: 13px 14px; transition: all 0.25s ease;
+        }
+        .input-shell:focus-within {
+            border-color: var(--milk-white); box-shadow: 0 0 0 4px rgba(239, 236, 230, 0.12); background: rgba(6, 16, 25, 0.85);
+        }
+        .input-shell input { background: none; border: none; outline: none; color: #FAF8F5; font-size: 14px; width: 100%; }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #32668A; border-radius: 9999px; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative antialiased">
+
+    <!-- ================================================================= -->
+    <!-- SECTION 1: AUTHENTICATION FLOW (Welcome / Login / Signup)         -->
+    <!-- ================================================================= -->
+    <div id="app-auth" class="relative z-50">
+        
+        <div class="atmosphere">
+            <div class="blob b1"></div>
+            <div class="blob b2"></div>
+            <div class="blob b3"></div>
+            <div id="particles"></div>
+        </div>
+
+        <!-- 1A: WELCOME SCREEN -->
+        <section class="auth-page active" id="page-welcome">
+            <div class="min-h-screen flex flex-col items-center justify-center text-center px-6 py-20 relative z-10">
+                <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-indigoJapanese-950/80 border border-milk/20 text-xs text-milk-fixed mb-8 backdrop-blur-md shadow-lg">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    UNIVERSE CAREER PLATFORM
+                </div>
+
+                <h1 class="font-display font-extrabold text-4xl sm:text-6xl text-milk-fixed tracking-tight uppercase max-w-4xl leading-tight">
+                    WELCOME TO <span class="text-sub-fixed">CAREER OS</span>
+                </h1>
+
+                <p class="mt-6 max-w-2xl text-sub-fixed text-sm sm:text-base leading-relaxed">
+                    The next-generation AI platform that intelligently discovers job opportunities — while helping you build your future with autonomous AI agents.
+                </p>
+
+                <div class="mt-10 flex items-center gap-4">
+                    <button id="getStartedBtn" class="px-8 py-4 rounded-2xl bg-milk text-indigoJapanese-950 font-bold text-sm shadow-xl hover:scale-105 transition-all flex items-center gap-2">
+                        Get Started
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+
+                <!-- Feature Grid -->
+                <div class="mt-20 w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                    <div class="p-6 rounded-2xl bg-milk text-indigoJapanese-950 border border-milk/60 shadow-xl">
+                        <div class="w-10 h-10 rounded-xl bg-indigoJapanese-950 text-milk flex items-center justify-center mb-4">
+                            <i data-lucide="file-text" class="w-5 h-5 text-milk"></i>
+                        </div>
+                        <h3 class="font-bold text-sm mb-1 text-indigoJapanese-950">Detailed Job Dissection</h3>
+                        <p class="text-xs text-indigoJapanese-600 leading-relaxed">Get deep insights and breakdown on recommended jobs.</p>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-milk text-indigoJapanese-950 border border-milk/60 shadow-xl">
+                        <div class="w-10 h-10 rounded-xl bg-indigoJapanese-950 text-milk flex items-center justify-center mb-4">
+                            <i data-lucide="zap" class="w-5 h-5 text-milk"></i>
+                        </div>
+                        <h3 class="font-bold text-sm mb-1 text-indigoJapanese-950">Live Multi-Portal Search</h3>
+                        <p class="text-xs text-indigoJapanese-600 leading-relaxed">Instantly update all job openings across LinkedIn, Devpost, & Unstop.</p>
+                    </div>
+
+                    <div class="p-6 rounded-2xl bg-milk text-indigoJapanese-950 border border-milk/60 shadow-xl">
+                        <div class="w-10 h-10 rounded-xl bg-indigoJapanese-950 text-milk flex items-center justify-center mb-4">
+                            <i data-lucide="bot" class="w-5 h-5 text-milk"></i>
+                        </div>
+                        <h3 class="font-bold text-sm mb-1 text-indigoJapanese-950">Career Growth Assistant</h3>
+                        <p class="text-xs text-indigoJapanese-600 leading-relaxed">Personalized AI assistance built for long-term career growth.</p>
+                    </div>
+                </div>
+
+                <div class="mt-16 text-[11px] text-sub-fixed uppercase tracking-widest font-semibold flex items-center gap-3">
+                    <span class="w-6 h-px bg-milk/30"></span> Powered by Team ABD <span class="w-6 h-px bg-milk/30"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 1B: LOGIN SCREEN -->
+        <section class="auth-page" id="page-login">
+            <div class="login-wrap">
+                <div class="login-card">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-9 h-9 rounded-xl bg-milk text-indigoJapanese-950 flex items-center justify-center font-bold">
+                            <i data-lucide="sparkles" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <div class="font-display font-bold text-base leading-none">Career OS</div>
+                            <div class="text-[10px] text-indigoJapanese-200 uppercase tracking-wider mt-1">Empowering the youth</div>
+                        </div>
+                    </div>
+
+                    <h2 class="text-2xl font-bold mt-6 text-milk-fixed">Welcome Back</h2>
+                    <p class="text-xs text-sub-fixed mt-1 mb-6">Sign in to continue your AI-powered career journey.</p>
+
+                    <div id="loginMsg" class="auth-message"></div>
+
+                    <form id="loginForm" class="space-y-4">
+                        <div>
+                            <label class="block text-xs text-sub-fixed mb-1.5 font-medium">Email Address</label>
+                            <div class="input-shell">
+                                <i data-lucide="mail" class="w-4 h-4 text-sub-fixed"></i>
+                                <input type="email" id="loginEmail" placeholder="you@example.com" required>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs text-sub-fixed mb-1.5 font-medium">Password</label>
+                            <div class="input-shell">
+                                <i data-lucide="lock" class="w-4 h-4 text-sub-fixed"></i>
+                                <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between text-xs py-1">
+                            <label class="flex items-center gap-2 cursor-pointer text-sub-fixed">
+                                <input type="checkbox" class="rounded bg-indigoJapanese-950 border-milk/20"> Remember me
+                            </label>
+                            <a href="#" class="text-milk-fixed font-semibold hover:underline">Forgot password?</a>
+                        </div>
+
+                        <button type="submit" id="signinBtn" class="w-full py-3.5 rounded-xl bg-milk text-indigoJapanese-950 font-bold text-sm shadow-xl hover:bg-white transition-all flex items-center justify-center gap-2">
+                            <span id="loginSpinner" class="hidden w-4 h-4 border-2 border-indigoJapanese-950 border-t-transparent rounded-full animate-spin"></span>
+                            <span id="signinLabel">Sign In</span>
+                        </button>
+                    </form>
+
+                    <div class="mt-8 pt-6 border-t border-white/10 text-center text-xs text-sub-fixed space-y-2">
+                        <div>Don't have an account? <a href="#" id="goToSignup" class="text-milk-fixed font-bold hover:underline">Create one</a></div>
+                        <div><a href="#" class="backToWelcome text-sub-fixed hover:underline">← Back to welcome</a></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 1C: SIGN UP SCREEN -->
+        <section class="auth-page" id="page-signup">
+            <div class="login-wrap">
+                <div class="login-card">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-9 h-9 rounded-xl bg-milk text-indigoJapanese-950 flex items-center justify-center font-bold">
+                            <i data-lucide="sparkles" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <div class="font-display font-bold text-base leading-none">Career OS</div>
+                            <div class="text-[10px] text-indigoJapanese-200 uppercase tracking-wider mt-1">Empowering the youth</div>
+                        </div>
+                    </div>
+
+                    <h2 class="text-2xl font-bold mt-6 text-milk-fixed">Create Account</h2>
+                    <p class="text-xs text-sub-fixed mt-1 mb-6">Start building your AI-driven career path today.</p>
+
+                    <div id="signupMsg" class="auth-message"></div>
+
+                    <form id="signupForm" class="space-y-3.5">
+                        <div>
+                            <label class="block text-xs text-sub-fixed mb-1 font-medium">Full Name</label>
+                            <div class="input-shell">
+                                <i data-lucide="user" class="w-4 h-4 text-sub-fixed"></i>
+                                <input type="text" id="signupName" placeholder="John Doe" required>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs text-sub-fixed mb-1 font-medium">Email Address</label>
+                            <div class="input-shell">
+                                <i data-lucide="mail" class="w-4 h-4 text-sub-fixed"></i>
+                                <input type="email" id="signupEmail" placeholder="you@example.com" required>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs text-sub-fixed mb-1 font-medium">Password</label>
+                            <div class="input-shell">
+                                <i data-lucide="lock" class="w-4 h-4 text-sub-fixed"></i>
+                                <input type="password" id="signupPassword" placeholder="Min. 6 characters" required>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs text-sub-fixed mb-1 font-medium">Confirm Password</label>
+                            <div class="input-shell">
+                                <i data-lucide="lock" class="w-4 h-4 text-sub-fixed"></i>
+                                <input type="password" id="signupConfirmPassword" placeholder="Confirm your password" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="signupBtn" class="w-full py-3.5 mt-2 rounded-xl bg-milk text-indigoJapanese-950 font-bold text-sm shadow-xl hover:bg-white transition-all flex items-center justify-center gap-2">
+                            <span id="signupSpinner" class="hidden w-4 h-4 border-2 border-indigoJapanese-950 border-t-transparent rounded-full animate-spin"></span>
+                            <span id="signupLabel">Create Account</span>
+                        </button>
+                    </form>
+
+                    <div class="mt-6 pt-5 border-t border-white/10 text-center text-xs text-sub-fixed space-y-2">
+                        <div>Already have an account? <a href="#" id="goToLoginFromSignup" class="text-milk-fixed font-bold hover:underline">Sign In</a></div>
+                        <div><a href="#" class="backToWelcome text-sub-fixed hover:underline">← Back to welcome</a></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+
+    <!-- ================================================================= -->
+    <!-- SECTION 2: CAREEROS MULTI-AGENT DASHBOARD CONTAINER               -->
+    <!-- ================================================================= -->
+    <div id="app-dashboard" class="hidden min-h-screen flex flex-col relative antialiased">
+
+        <!-- Glowing Ambient Highlights -->
+        <div class="fixed top-0 left-1/3 w-96 h-96 bg-indigoJapanese-500/20 rounded-full blur-3xl pointer-events-none -z-10"></div>
+        <div class="fixed bottom-10 right-10 w-[30rem] h-[30rem] bg-milk/15 rounded-full blur-3xl pointer-events-none -z-10"></div>
+
+        <!-- Notification Toast System -->
+        <div id="toast" class="fixed top-6 right-6 z-50 transform -translate-y-24 opacity-0 transition-all duration-500 ease-out flex items-center gap-3.5 glass-card px-5 py-4 rounded-2xl shadow-2xl border-l-4 border-l-indigoJapanese-900 pointer-events-none">
+            <div class="w-9 h-9 rounded-full bg-indigoJapanese-100 text-indigoJapanese-900 flex items-center justify-center shrink-0">
+                <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+            </div>
+            <div>
+                <h4 class="text-xs font-bold text-indigoJapanese-950" id="toast-title">Action Processed</h4>
+                <p class="text-xs text-indigoJapanese-600" id="toast-desc">Agent cycle updated successfully.</p>
+            </div>
+        </div>
+
+        <!-- Sticky Header -->
+        <header class="sticky top-0 z-30 glass-nav px-6 py-3.5 flex items-center justify-between gap-4">
+            
+            <!-- 🌟 AGENT SYSTEM COMMAND NODE -->
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-3 px-3.5 py-2 rounded-2xl bg-indigoJapanese-950/80 border border-milk/20 text-xs shadow-lg backdrop-blur-md">
+                    <div class="relative flex items-center justify-center">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                        <span class="absolute w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping opacity-75"></span>
+                    </div>
+                    <div class="flex items-center gap-2 border-r border-milk/15 pr-3">
+                        <span class="font-display font-bold text-milk-fixed tracking-wide">CAREER OS</span>
+                        <span class="text-[9px] font-bold bg-milk/15 text-milk-fixed px-2 py-0.5 rounded-md uppercase tracking-wider">Node 01</span>
+                    </div>
+                    <div class="hidden sm:flex items-center gap-2 text-[11px] text-sub-fixed font-medium">
+                        <i data-lucide="cpu" class="w-3.5 h-3.5 text-emerald-400"></i>
+                        <span>Scout v2.5 • Strategist • Matcher</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Header Elements -->
+            <div class="flex items-center gap-3">
+                <div class="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-milk/15 border border-milk/20 text-xs text-milk-fixed font-semibold shadow-sm">
+                    <i data-lucide="clock" class="w-3.5 h-3.5 text-sub-fixed"></i>
+                    <span id="live-clock">12:00:00 PM</span>
+                </div>
+
+                <!-- 🌟 AGENTIC AI RESUME ANALYZER BUTTON (NEXT TO CLOCK) -->
+                <button onclick="toggleResumeModal()" id="header-resume-btn" class="glow-btn-secondary px-3.5 py-2 text-xs font-bold rounded-xl flex items-center gap-2 shadow-sm">
+                    <i data-lucide="file-text" class="w-4 h-4 text-emerald-600"></i>
+                    <span id="resume-btn-label" class="hidden md:inline">Upload Resume</span>
+                    <span id="resume-status-dot" class="w-2 h-2 rounded-full bg-amber-400"></span>
+                </button>
+
+                <!-- 🌟 NEURAL MATRIX PULSE TRIGGER -->
+                <button onclick="toggleMatrixModal()" class="glow-btn-secondary px-3.5 py-2 text-xs font-bold rounded-xl flex items-center gap-2.5 shadow-sm">
+                    <div class="relative w-2 h-2">
+                        <span class="w-2 h-2 rounded-full bg-blue-500 absolute inset-0"></span>
+                        <span class="w-2 h-2 rounded-full bg-blue-400 animate-ping absolute inset-0"></span>
+                    </div>
+                    <i data-lucide="activity" class="w-3.5 h-3.5 text-indigoJapanese-700"></i>
+                    <span class="hidden md:inline">Neural Matrix</span>
+                </button>
+
+                <!-- 🌟 USER PROFILE -->
+                <div class="relative group">
+                    <div class="flex items-center gap-2.5 pl-2 border-l border-milk/20 cursor-pointer">
+                        <div id="user-avatar-badge" class="w-8 h-8 rounded-full bg-milk text-indigoJapanese-950 font-extrabold text-xs flex items-center justify-center border border-milk shadow-md">
+                            U
+                        </div>
+                        <div class="hidden sm:block text-left">
+                            <span id="user-display-name" class="text-xs font-extrabold text-milk-fixed block leading-tight">User Account</span>
+                            <span class="text-[10px] text-sub-fixed block font-medium">AI Career Architect</span>
+                        </div>
+                        <button id="logoutBtn" title="Sign Out" class="ml-1 p-1.5 text-sub-fixed hover:text-milk-fixed hover:bg-milk/10 rounded-lg transition-colors">
+                            <i data-lucide="log-out" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Main Content -->
+        <main class="p-6 md:p-8 space-y-8 max-w-7xl mx-auto w-full flex-1">
+
+            <!-- Title Banner -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <h1 class="text-2xl sm:text-3xl font-extrabold text-milk-fixed tracking-tight drop-shadow-sm font-display">CareerOS Multi-Agent Intelligence</h1>
+                        <span class="bg-milk text-indigoJapanese-950 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm">v2.5 Live Feeds</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-sub-fixed drop-shadow-sm">Scout, Strategist, and Recruiter-Match agents running live via Python & Gemini AI.</p>
+                </div>
+            </div>
+
+            <!-- 🔍 Search Form Card -->
+            <div class="glass-card glow-card p-6 rounded-sdt shadow-xl border border-milk/40 space-y-4">
+                <div class="flex items-center gap-2.5">
+                    <span class="text-xl">🔍</span>
+                    <h2 class="text-lg font-bold text-indigoJapanese-950 tracking-tight font-display">Search to career</h2>
+                </div>
+
+                <form id="job-search-form" onsubmit="handleSearchSubmit(event)" class="flex flex-col sm:flex-row items-center gap-3">
+                    <div class="relative flex-1 w-full">
+                        <input 
+                            id="query-input"
+                            type="text" 
+                            placeholder="Role or keyword (e.g. Python Developer)" 
+                            value="Python Developer"
+                            class="w-full px-4 py-2.5 text-xs font-medium glow-input rounded-xl text-indigoJapanese-950 focus:outline-none"
+                            required
+                        >
+                    </div>
+                    <div class="relative flex-1 w-full">
+                        <input 
+                            id="location-input"
+                            type="text" 
+                            placeholder="Location (e.g. Remote, Bangalore, Coimbatore)" 
+                            value="Coimbatore"
+                            class="w-full px-4 py-2.5 text-xs font-medium glow-input rounded-xl text-indigoJapanese-950 focus:outline-none"
+                            required
+                        >
+                    </div>
+                    <button 
+                        type="submit" 
+                        id="search-button"
+                        class="w-full sm:w-auto px-8 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs rounded-xl shadow-md transition-all shrink-0 hover:scale-[1.02] active:scale-[0.98]"
+                    >
+                        Search
+                    </button>
+                </form>
+
+                <p class="text-[11px] text-indigoJapanese-600 font-medium">
+                    Sources: LinkedIn, Devpost, Unstop (live public feeds — no fake/synthetic listings).
+                </p>
+            </div>
+
+            <!-- 📊 3 Horizontal Platform Output Columns -->
+            <div id="job-results-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+                <!-- Initial Empty State -->
+                <div class="col-span-full glass-card p-8 rounded-2xl text-center border border-milk/30">
+                    <i data-lucide="search" class="w-8 h-8 mx-auto text-indigoJapanese-600 mb-2"></i>
+                    <h3 class="font-bold text-indigoJapanese-950 text-sm">No Active Search Executed</h3>
+                    <p class="text-xs text-indigoJapanese-600 mt-1">Enter a keyword and location above to trigger the Scout Agent.</p>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- 📄 MODAL 1: RESUME UPLOAD MODAL -->
+    <div id="resume-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-indigoJapanese-950/70 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300 p-4">
+        <div class="glass-card max-w-lg w-full rounded-3xl p-6 shadow-2xl border border-milk space-y-5 text-indigoJapanese-950">
+            <div class="flex items-center justify-between pb-3 border-b border-indigoJapanese-900/10">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-xs">
+                        <i data-lucide="upload-cloud" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-base leading-tight font-display">Upload Candidate Resume</h3>
+                        <p class="text-xs text-indigoJapanese-600">Unlocks Recruiter-Match Agent & Match Score Predictions</p>
+                    </div>
+                </div>
+                <button onclick="toggleResumeModal()" class="text-indigoJapanese-600 hover:text-indigoJapanese-950">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4">
+                <div class="border-2 border-dashed border-indigoJapanese-500/40 hover:border-indigoJapanese-700 bg-white/60 p-6 rounded-2xl text-center transition-all cursor-pointer" onclick="document.getElementById('resume-file-input').click()">
+                    <i data-lucide="file-up" class="w-8 h-8 mx-auto text-indigoJapanese-700 mb-2"></i>
+                    <p class="text-xs font-bold text-indigoJapanese-950">Click to upload or drag & drop</p>
+                    <p class="text-[10px] text-indigoJapanese-600 mt-0.5">Supports PDF, DOCX, TXT files</p>
+                    <input type="file" id="resume-file-input" class="hidden" accept=".pdf,.docx,.txt" onchange="handleFileSelected(event)">
+                </div>
+
+                <div id="file-status-box" class="hidden p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 flex items-center gap-2">
+                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
+                    <span id="uploaded-filename" class="font-bold"></span>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-indigoJapanese-950 mb-1">Or Paste Resume Text directly:</label>
+                    <textarea id="resume-text-input" rows="4" placeholder="Paste your key skills, projects, and work experience here..." class="w-full glow-input rounded-xl p-3 text-xs focus:outline-none"></textarea>
+                </div>
+            </div>
+
+            <div class="flex gap-2 pt-2">
+                <button onclick="toggleResumeModal()" class="flex-1 py-2.5 rounded-xl border border-indigoJapanese-900/20 font-bold text-xs hover:bg-gray-100">
+                    Cancel
+                </button>
+                <button onclick="saveUserResume()" class="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all">
+                    Activate Match Engine
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 📊 MODAL 2: RECRUITER MATCH PREDICTION MODAL -->
+    <div id="match-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-indigoJapanese-950/70 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300 p-4">
+        <div class="glass-card max-w-xl w-full rounded-3xl p-6 shadow-2xl border border-milk max-h-[85vh] overflow-y-auto space-y-4 text-indigoJapanese-950">
+            <div class="flex items-center justify-between pb-3 border-b border-indigoJapanese-900/10">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-xs">
+                        <i data-lucide="target" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h3 id="match-modal-title" class="font-extrabold text-base leading-tight font-display">Recruiter Match Prediction</h3>
+                        <p id="match-modal-subtitle" class="text-xs text-indigoJapanese-600">AI Scoring against your candidate profile</p>
+                    </div>
+                </div>
+                <button onclick="closeMatchModal()" class="text-indigoJapanese-600 hover:text-indigoJapanese-950">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div id="match-modal-body" class="space-y-4 text-xs">
+                <!-- Populated dynamically via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 🧠 STRATEGIST AGENT ANALYSIS MODAL -->
+    <div id="analysis-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-indigoJapanese-950/60 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300 p-4">
+        <div class="glass-card max-w-2xl w-full rounded-3xl p-6 shadow-2xl border border-milk max-h-[85vh] overflow-y-auto space-y-4 text-indigoJapanese-950">
+            <div class="flex items-center justify-between pb-3 border-b border-indigoJapanese-900/10">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-xs">
+                        AI
+                    </div>
+                    <div>
+                        <h3 id="modal-role-title" class="font-extrabold text-base leading-tight text-indigoJapanese-950 font-display">Job Dissection</h3>
+                        <p id="modal-company-info" class="text-xs text-indigoJapanese-600">Strategist Agent Analysis</p>
+                    </div>
+                </div>
+                <button onclick="closeAnalysisModal()" class="text-indigoJapanese-600 hover:text-indigoJapanese-950">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div id="modal-body-content" class="space-y-4 text-xs">
+                <!-- Populated dynamically via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ⚡ NEURAL MATRIX DIAGNOSTICS MODAL -->
+    <div id="matrix-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-indigoJapanese-950/70 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300 p-4">
+        <div class="glass-card max-w-lg w-full rounded-3xl p-6 shadow-2xl border border-milk space-y-5 text-indigoJapanese-950">
+            <div class="flex items-center justify-between pb-3 border-b border-indigoJapanese-900/10">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-xl bg-indigoJapanese-950 text-milk flex items-center justify-center font-bold text-xs">
+                        <i data-lucide="activity" class="w-4 h-4 text-emerald-400"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-base leading-tight font-display">Neural Matrix Diagnostics</h3>
+                        <p class="text-xs text-indigoJapanese-600">Autonomous Multi-Agent Telemetry</p>
+                    </div>
+                </div>
+                <button onclick="toggleMatrixModal()" class="text-indigoJapanese-600 hover:text-indigoJapanese-950">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-3 text-xs">
+                <div class="flex justify-between items-center p-3 rounded-xl bg-indigoJapanese-100/70">
+                    <span class="font-semibold text-indigoJapanese-950">Scout Agent Thread</span>
+                    <span class="text-emerald-700 font-bold">Active • 120ms Latency</span>
+                </div>
+                <div class="flex justify-between items-center p-3 rounded-xl bg-indigoJapanese-100/70">
+                    <span class="font-semibold text-indigoJapanese-950">Gemini LLM Dissect Engine</span>
+                    <span class="text-emerald-700 font-bold">Operational • Gemini 1.5 Flash</span>
+                </div>
+                <div class="flex justify-between items-center p-3 rounded-xl bg-indigoJapanese-100/70">
+                    <span class="font-semibold text-indigoJapanese-950">Recruiter Match Engine</span>
+                    <span id="matrix-match-status" class="text-amber-700 font-bold">Waiting for Resume Upload</span>
+                </div>
+            </div>
+
+            <button onclick="toggleMatrixModal()" class="w-full py-2.5 rounded-xl bg-indigoJapanese-950 text-milk font-bold text-xs">
+                Close Diagnostics
+            </button>
+        </div>
+    </div>
+
+    <!-- Floating AI Widget Trigger Button -->
+    <button onclick="toggleChatModal()" aria-label="Open AI Assistant" class="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-milk text-indigoJapanese-950 flex items-center justify-center shadow-2xl hover:scale-105 transition-all z-50 border border-indigoJapanese-900/20 glow-card">
+        <i data-lucide="sparkles" class="w-6 h-6"></i>
+    </button>
+
+    <!-- Floating AI Assistant Chat Window -->
+    <div id="ai-chat-modal" class="fixed bottom-24 right-6 w-80 sm:w-96 glass-card rounded-3xl p-4 shadow-2xl border border-milk z-50 transition-all duration-300 transform translate-y-4 opacity-0 pointer-events-none">
+        <div class="flex items-center justify-between pb-3 border-b border-indigoJapanese-900/10 mb-3">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-xl bg-indigoJapanese-950 text-milk flex items-center justify-center font-bold text-xs">
+                    AI
+                </div>
+                <div>
+                    <h3 class="font-bold text-sm text-indigoJapanese-950 leading-none font-display">CareerOS Assistant</h3>
+                    <span class="text-[10px] text-indigoJapanese-600 font-medium">Online • Connected to Backend</span>
+                </div>
+            </div>
+            <button onclick="toggleChatModal()" class="text-indigoJapanese-600 hover:text-indigoJapanese-950">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+        </div>
+
+        <div id="chat-stream" class="h-64 overflow-y-auto space-y-3 pr-1 mb-3 text-xs">
+            <div class="flex items-start gap-2">
+                <div class="p-3 rounded-2xl bg-indigoJapanese-100/70 text-indigoJapanese-950 max-w-[85%] leading-relaxed">
+                    Hello! I am monitoring your Scout Agent runs for LinkedIn, Devpost, and Unstop. Upload your resume above to calculate live Job Match Scores!
+                </div>
+            </div>
+        </div>
+
+        <form id="ai-form" onsubmit="handleChatSubmit(event)" class="flex items-center gap-2">
+            <input 
+                id="user-input"
+                type="text" 
+                placeholder="Ask your query here..." 
+                class="flex-1 glow-input rounded-full px-4 py-2 text-xs text-indigoJapanese-950 focus:outline-none disabled:bg-gray-100"
+                required
+            >
+            <button type="submit" id="send-btn" class="glow-btn-primary w-8 h-8 rounded-full flex items-center justify-center shrink-0">
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+        </form>
+    </div>
+
+
+    <!-- ================================================================= -->
+    <!-- SECTION 3: FIREBASE AUTHENTICATION SCRIPT MODULE                  -->
+    <!-- ================================================================= -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            updateProfile,
+            onAuthStateChanged,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCaB1rfGuTALalKk39-RChzUnmW9pvW9nA",
+            authDomain: "job-project-d6048.firebaseapp.com",
+            projectId: "job-project-d6048",
+            storageBucket: "job-project-d6048.firebasestorage.app",
+            messagingSenderId: "735716252540",
+            appId: "1:735716252540:web:aae3a3c9f78c1c4afd22f9",
+            measurementId: "G-SJYBKXWP6T"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        const pContainer = document.getElementById('particles');
+        if (pContainer) {
+            for(let i = 0; i < 25; i++){
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.bottom = '-10px';
+                p.style.animationDuration = (14 + Math.random() * 14) + 's';
+                p.style.animationDelay = (Math.random() * 14) + 's';
+                pContainer.appendChild(p);
+            }
+        }
+
+        const pageWelcome = document.getElementById('page-welcome');
+        const pageLogin = document.getElementById('page-login');
+        const pageSignup = document.getElementById('page-signup');
+        const appAuthContainer = document.getElementById('app-auth');
+        const appDashboardContainer = document.getElementById('app-dashboard');
+
+        const loginMsg = document.getElementById('loginMsg');
+        const signupMsg = document.getElementById('signupMsg');
+
+        function showMessage(element, text, type = 'error') {
+            if (!element) return;
+            element.textContent = text;
+            element.className = `auth-message ${type}`;
+        }
+
+        function clearMessages() {
+            if (loginMsg) { loginMsg.className = 'auth-message'; loginMsg.textContent = ''; }
+            if (signupMsg) { signupMsg.className = 'auth-message'; signupMsg.textContent = ''; }
+        }
+
+        function switchAuthPage(targetPage) {
+            clearMessages();
+            [pageWelcome, pageLogin, pageSignup].forEach(page => {
+                if (page) page.classList.remove('active');
+            });
+            if (targetPage) targetPage.classList.add('active');
+        }
+
+        document.getElementById('getStartedBtn')?.addEventListener('click', () => switchAuthPage(pageLogin));
+        document.getElementById('goToSignup')?.addEventListener('click', (e) => { e.preventDefault(); switchAuthPage(pageSignup); });
+        document.getElementById('goToLoginFromSignup')?.addEventListener('click', (e) => { e.preventDefault(); switchAuthPage(pageLogin); });
+        
+        document.querySelectorAll('.backToWelcome').forEach(link => {
+            link.addEventListener('click', (e) => { e.preventDefault(); switchAuthPage(pageWelcome); });
+        });
+
+        const signupForm = document.getElementById('signupForm');
+        signupForm?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            clearMessages();
+
+            const name = document.getElementById('signupName')?.value.trim();
+            const email = document.getElementById('signupEmail')?.value.trim();
+            const pw = document.getElementById('signupPassword')?.value;
+            const confirmPw = document.getElementById('signupConfirmPassword')?.value;
+
+            if (pw !== confirmPw) {
+                showMessage(signupMsg, 'Passwords do not match.', 'error');
+                return;
+            }
+
+            document.getElementById('signupSpinner')?.classList.remove('hidden');
+            if (document.getElementById('signupLabel')) document.getElementById('signupLabel').textContent = 'Creating...';
+            if (document.getElementById('signupBtn')) document.getElementById('signupBtn').disabled = true;
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, pw);
+                if (name && userCredential.user) {
+                    await updateProfile(userCredential.user, { displayName: name });
+                }
+                showMessage(signupMsg, 'Account created successfully! Redirecting...', 'success');
+            } catch (error) {
+                document.getElementById('signupSpinner')?.classList.add('hidden');
+                if (document.getElementById('signupLabel')) document.getElementById('signupLabel').textContent = 'Create Account';
+                if (document.getElementById('signupBtn')) document.getElementById('signupBtn').disabled = false;
+                showMessage(signupMsg, error.message || 'Registration failed.', 'error');
+            }
+        });
+
+        const loginForm = document.getElementById('loginForm');
+        loginForm?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            clearMessages();
+
+            const email = document.getElementById('loginEmail')?.value.trim();
+            const pw = document.getElementById('loginPassword')?.value;
+
+            document.getElementById('loginSpinner')?.classList.remove('hidden');
+            if (document.getElementById('signinLabel')) document.getElementById('signinLabel').textContent = 'Authenticating...';
+            if (document.getElementById('signinBtn')) document.getElementById('signinBtn').disabled = true;
+
+            try {
+                await signInWithEmailAndPassword(auth, email, pw);
+                showMessage(loginMsg, 'Success! Redirecting to Dashboard...', 'success');
+            } catch (error) {
+                document.getElementById('loginSpinner')?.classList.add('hidden');
+                if (document.getElementById('signinLabel')) document.getElementById('signinLabel').textContent = 'Sign In';
+                if (document.getElementById('signinBtn')) document.getElementById('signinBtn').disabled = false;
+                showMessage(loginMsg, 'Invalid email or password.', 'error');
+            }
+        });
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const displayName = user.displayName || user.email.split('@')[0];
+                const initial = displayName.charAt(0).toUpperCase();
+
+                if (document.getElementById('user-display-name')) document.getElementById('user-display-name').textContent = displayName;
+                if (document.getElementById('user-avatar-badge')) document.getElementById('user-avatar-badge').textContent = initial;
+
+                appAuthContainer?.classList.add('hidden');
+                appDashboardContainer?.classList.remove('hidden');
+                if (window.lucide) lucide.createIcons();
+            } else {
+                appAuthContainer?.classList.remove('hidden');
+                appDashboardContainer?.classList.add('hidden');
+                switchAuthPage(pageWelcome);
+            }
+        });
+
+        document.getElementById('logoutBtn')?.addEventListener('click', () => {
+            signOut(auth);
+        });
+    </script>
+
+    <!-- ================================================================= -->
+    <!-- SECTION 4: DASHBOARD & RESUME ANALYZER SCRIPT                     -->
+    <!-- ================================================================= -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.lucide) lucide.createIcons();
+        });
+
+        const ALLOWED_PORTALS = ["LinkedIn", "Devpost", "Unstop"];
+        let isResumeUploaded = false;
+        let uploadedResumeData = { filename: '', text: '' };
+        let currentSearchData = {};
+
+        function updateClock() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const clockEl = document.getElementById('live-clock');
+            if (clockEl) clockEl.textContent = timeStr;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        function triggerToast(title, desc) {
+            const toast = document.getElementById('toast');
+            if (!toast) return;
+            document.getElementById('toast-title').textContent = title;
+            document.getElementById('toast-desc').textContent = desc;
+
+            toast.classList.remove('-translate-y-24', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('-translate-y-24', 'opacity-0');
+            }, 3500);
+        }
+
+        /* --- RESUME ANALYZER FUNCTIONS --- */
+        function toggleResumeModal() {
+            const modal = document.getElementById('resume-modal');
+            modal?.classList.toggle('opacity-0');
+            modal?.classList.toggle('pointer-events-none');
+        }
+
+        function handleFileSelected(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            uploadedResumeData.filename = file.name;
+            document.getElementById('uploaded-filename').textContent = `File selected: ${file.name}`;
+            document.getElementById('file-status-box').classList.remove('hidden');
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedResumeData.text = e.target.result;
+            };
+            reader.readAsText(file);
+        }
+
+        function saveUserResume() {
+            const textInput = document.getElementById('resume-text-input').value.trim();
+            if (textInput) {
+                uploadedResumeData.text = textInput;
+                if (!uploadedResumeData.filename) uploadedResumeData.filename = 'pasted_resume.txt';
+            }
+
+            if (!uploadedResumeData.text && !uploadedResumeData.filename) {
+                alert('Please upload a resume file or paste your resume text first.');
+                return;
+            }
+
+            isResumeUploaded = true;
+            toggleResumeModal();
+
+            document.getElementById('resume-status-dot').className = "w-2 h-2 rounded-full bg-emerald-400 animate-pulse";
+            document.getElementById('resume-btn-label').textContent = "Resume Active";
+            
+            const matrixStatus = document.getElementById('matrix-match-status');
+            if (matrixStatus) {
+                matrixStatus.textContent = "Ready • Recruiter Engine Active";
+                matrixStatus.className = "text-emerald-700 font-bold";
+            }
+
+            triggerToast('Resume Loaded', 'AI Match Engine unlocked! You can now calculate Match Scores on job cards.');
+
+            if (Object.keys(currentSearchData).length > 0) {
+                renderJobResults(currentSearchData);
+            }
+        }
+
+        /* --- SEARCH & CARD RENDERING --- */
+        async function handleSearchSubmit(event) {
+            event.preventDefault();
+            const role = document.getElementById('query-input').value.trim();
+            const location = document.getElementById('location-input').value.trim();
+
+            if (!role || !location) return;
+
+            triggerToast('Scout Agent Executing', `Scanning LinkedIn, Devpost, & Unstop for "${role}"...`);
+            renderLoadingState();
+
+            try {
+                const response = await fetch('/api/search', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ role: role, location: location })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Server returned HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+                if (data.error) throw new Error(data.error);
+
+                currentSearchData = data.sources || {};
+                renderJobResults(currentSearchData);
+                triggerToast('Scout Complete', 'Retrieved live listings.');
+
+            } catch (error) {
+                console.error("Error searching jobs:", error);
+                document.getElementById('job-results-grid').innerHTML = `
+                    <div class="col-span-full glass-card p-6 rounded-2xl text-center border border-red-300">
+                        <p class="text-xs font-bold text-red-600">Failed to connect to Scout Agent Backend.</p>
+                        <p class="text-[11px] text-indigoJapanese-600 mt-1">${escapeHtml(error.message)}</p>
+                    </div>
+                `;
+            }
+        }
+
+        function renderLoadingState() {
+            const grid = document.getElementById('job-results-grid');
+            if (!grid) return;
+            grid.innerHTML = `
+                <div class="col-span-full glass-card p-12 rounded-2xl text-center border border-milk/30 animate-pulse space-y-3">
+                    <i data-lucide="refresh-cw" class="w-8 h-8 mx-auto text-indigoJapanese-700 animate-spin"></i>
+                    <h3 class="font-bold text-indigoJapanese-950 text-sm">Scout Agent Scanning Live Portals...</h3>
+                    <p class="text-xs text-indigoJapanese-600">Retrieving listings from LinkedIn, Devpost, and Unstop.</p>
+                </div>
+            `;
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function renderJobResults(sources) {
+            const gridContainer = document.getElementById('job-results-grid');
+            if (!gridContainer) return;
+            gridContainer.innerHTML = '';
+
+            const portalBorderColors = {
+                "LinkedIn": "border-t-blue-600",
+                "Devpost": "border-t-indigo-600",
+                "Unstop": "border-t-amber-500"
+            };
+
+            ALLOWED_PORTALS.forEach(portalName => {
+                const items = sources[portalName] || [];
+                const topBorderClass = portalBorderColors[portalName] || "border-t-indigoJapanese-700";
+
+                const column = document.createElement('div');
+                column.className = `glass-card glow-card rounded-2xl p-4 border-t-4 ${topBorderClass} border border-milk/40 flex flex-col h-[560px]`;
+
+                column.innerHTML = `
+                    <div class="flex items-center justify-between pb-3 mb-3 border-b border-indigoJapanese-900/10">
+                        <h3 class="font-bold text-base text-indigoJapanese-950 font-display">${escapeHtml(portalName)}</h3>
+                        <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigoJapanese-100/80 text-indigoJapanese-900 border border-indigoJapanese-900/10">
+                            ${items.length} roles
+                        </span>
+                    </div>
+                    <div class="job-list-scroll flex-1 overflow-y-auto space-y-3 pr-1"></div>
+                `;
+
+                const listContainer = column.querySelector('.job-list-scroll');
+
+                if (items.length === 0) {
+                    listContainer.innerHTML = `<p class="text-xs text-indigoJapanese-600 italic p-2">No active postings found.</p>`;
+                } else {
+                    items.forEach(item => {
+                        const card = document.createElement('div');
+                        card.className = "p-3.5 rounded-xl bg-white/90 border border-indigoJapanese-900/10 hover:border-indigoJapanese-900/30 transition-all flex flex-col justify-between gap-2 shadow-sm";
+
+                        const safeItemJson = escapeHtml(JSON.stringify(item));
+
+                        const matchBtnHtml = isResumeUploaded 
+                            ? `<button onclick='handleMatchClick(${safeItemJson})' class="text-[11px] font-semibold text-blue-600 border border-blue-500 hover:bg-blue-50 px-2 py-1 rounded-md transition-colors flex items-center gap-1">
+                                    <i data-lucide="percent" class="w-3 h-3"></i> Match Score
+                               </button>`
+                            : `<button onclick='handleMatchClick(${safeItemJson})' class="text-[11px] font-semibold text-gray-400 border border-gray-300 hover:border-amber-500 hover:text-amber-700 px-2 py-1 rounded-md transition-colors flex items-center gap-1" title="Upload Resume First">
+                                    <i data-lucide="lock" class="w-3 h-3 text-amber-500"></i> Match Score
+                               </button>`;
+
+                        card.innerHTML = `
+                            <div>
+                                <h4 class="font-bold text-xs sm:text-sm text-indigoJapanese-950 leading-snug">${escapeHtml(item.title)}</h4>
+                                <p class="text-[11px] text-indigoJapanese-600 font-medium">${escapeHtml(item.company)} • ${escapeHtml(item.location)}</p>
+                            </div>
+                            <div class="flex items-center justify-between pt-1 gap-1">
+                                <button onclick='triggerAnalysisModal(${safeItemJson})' class="text-[11px] font-semibold text-emerald-600 border border-emerald-500 hover:bg-emerald-50 px-2 py-1 rounded-md transition-colors">
+                                    Analysis
+                                </button>
+                                ${matchBtnHtml}
+                                <a href="${item.link || '#'}" target="_blank" rel="noopener noreferrer" class="text-[11px] font-semibold text-gray-700 border border-gray-400 hover:bg-gray-100 px-2.5 py-1 rounded-md transition-colors inline-block">
+                                    View
+                                </a>
+                            </div>
+                        `;
+
+                        listContainer.appendChild(card);
+                    });
+                }
+
+                gridContainer.appendChild(column);
+            });
+
+            if (window.lucide) lucide.createIcons();
+        }
+
+        /* --- RECRUITER MATCH SCORE PREDICTION ENGINE --- */
+        async function handleMatchClick(job) {
+            if (!isResumeUploaded) {
+                alert("Please upload your resume first using the button at the top right.");
+                toggleResumeModal();
+                return;
+            }
+
+            const matchModal = document.getElementById('match-modal');
+            const titleEl = document.getElementById('match-modal-title');
+            const subEl = document.getElementById('match-modal-subtitle');
+            const bodyEl = document.getElementById('match-modal-body');
+
+            if (titleEl) titleEl.textContent = `${job.title} — Match Score`;
+            if (subEl) subEl.textContent = `${job.company} • ${job.location}`;
+
+            if (bodyEl) {
+                bodyEl.innerHTML = `
+                    <div class="p-8 text-center space-y-2">
+                        <i data-lucide="target" class="w-8 h-8 mx-auto text-blue-600 animate-spin"></i>
+                        <p class="font-bold text-xs text-indigoJapanese-950">Recruiter Match Agent Dissecting CV vs Job...</p>
+                        <p class="text-[11px] text-indigoJapanese-600">Extracting requirements from Scout & Strategist Agents...</p>
+                    </div>
+                `;
+            }
+            if (window.lucide) lucide.createIcons();
+            matchModal?.classList.remove('opacity-0', 'pointer-events-none');
+
+            try {
+                const response = await fetch('/api/match', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        job: job,
+                        resume_text: uploadedResumeData.text
+                    })
+                });
+
+                const data = await response.json();
+                if (data.error) throw new Error(data.error);
+
+                const match = data.match || {};
+                const matchScore = match.match_score || 70;
+                const feedback = match.feedback || "Calculated based on skill alignment.";
+                const matchedSkills = match.matched_skills || [];
+                const missingSkills = match.missing_skills || [];
+
+                if (bodyEl) {
+                    bodyEl.innerHTML = `
+                        <div class="space-y-4">
+                            <div class="p-4 bg-blue-50 rounded-2xl border border-blue-100 flex items-center justify-between">
+                                <div>
+                                    <h4 class="text-xs font-bold text-indigoJapanese-950">Predicted Recruiter Candidate Match</h4>
+                                    <p class="text-[11px] text-indigoJapanese-600 mt-0.5">${escapeHtml(feedback)}</p>
+                                </div>
+                                <div class="text-2xl font-extrabold text-blue-600 bg-white px-3.5 py-1.5 rounded-xl border border-blue-200 shadow-sm font-display">
+                                    ${matchScore}%
+                                </div>
+                            </div>
+
+                            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-100">
+                                <h5 class="font-bold text-xs text-emerald-900 mb-1">Matched Core Skills Found in CV</h5>
+                                <div class="flex flex-wrap gap-1.5">
+                                    ${matchedSkills.length > 0 
+                                        ? matchedSkills.map(s => `<span class="px-2.5 py-0.5 rounded bg-emerald-200/80 text-emerald-950 font-bold text-[10px]">${escapeHtml(s)}</span>`).join('')
+                                        : `<span class="text-[11px] text-emerald-700 italic">No direct skill matches found in resume.</span>`}
+                                </div>
+                            </div>
+
+                            <div class="p-3 bg-amber-50 rounded-xl border border-amber-100">
+                                <h5 class="font-bold text-xs text-amber-900 mb-1">Missing Skill Gaps Needed for Job</h5>
+                                <div class="flex flex-wrap gap-1.5">
+                                    ${missingSkills.length > 0 
+                                        ? missingSkills.map(s => `<span class="px-2.5 py-0.5 rounded bg-amber-200/80 text-amber-950 font-bold text-[10px]">${escapeHtml(s)}</span>`).join('')
+                                        : `<span class="text-[11px] text-amber-800 font-semibold">Perfect alignment! Your CV covers all key skills.</span>`}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+            } catch (err) {
+                if (bodyEl) {
+                    bodyEl.innerHTML = `
+                        <div class="p-4 bg-red-50 text-red-700 rounded-xl font-medium text-xs">
+                            Failed to compute match score: ${escapeHtml(err.message)}
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        function closeMatchModal() {
+            document.getElementById('match-modal')?.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        async function triggerAnalysisModal(job) {
+            const modal = document.getElementById('analysis-modal');
+            const titleEl = document.getElementById('modal-role-title');
+            const infoEl = document.getElementById('modal-company-info');
+            const bodyEl = document.getElementById('modal-body-content');
+
+            if (titleEl) titleEl.textContent = job.title;
+            if (infoEl) infoEl.textContent = `${job.company} • ${job.location}`;
+
+            if (bodyEl) {
+                bodyEl.innerHTML = `
+                    <div class="p-8 text-center space-y-2">
+                        <i data-lucide="cpu" class="w-8 h-8 mx-auto text-emerald-600 animate-spin"></i>
+                        <p class="font-bold text-xs text-indigoJapanese-950">Strategist Agent Dissecting Posting...</p>
+                    </div>
+                `;
+            }
+            if (window.lucide) lucide.createIcons();
+            modal?.classList.remove('opacity-0', 'pointer-events-none');
+
+            try {
+                const response = await fetch('/api/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        title: job.title,
+                        company: job.company,
+                        location: job.location,
+                        link: job.link
+                    })
+                });
+
+                const data = await response.json();
+                if (data.error) throw new Error(data.error);
+
+                const analysis = data.analysis;
+
+                if (bodyEl) {
+                    bodyEl.innerHTML = `
+                        <div class="space-y-4">
+                            <div class="p-3 bg-indigoJapanese-50 rounded-xl border border-indigoJapanese-100">
+                                <h5 class="font-bold text-xs text-indigoJapanese-900 mb-1">Role Summary</h5>
+                                <p class="text-indigoJapanese-700 leading-relaxed">${escapeHtml(analysis.job_description || 'N/A')}</p>
+                            </div>
+
+                            <div>
+                                <h5 class="font-bold text-xs text-indigoJapanese-900 mb-1.5">Required Hard Skills</h5>
+                                <div class="flex flex-wrap gap-1.5">
+                                    ${(analysis.hard_skills || []).map(skill => `<span class="px-2.5 py-0.5 rounded-md bg-emerald-100 text-emerald-900 font-bold text-[10px]">${escapeHtml(skill)}</span>`).join('')}
+                                </div>
+                            </div>
+
+                            <div>
+                                <h5 class="font-bold text-xs text-indigoJapanese-900 mb-1.5">Required Soft Skills</h5>
+                                <div class="flex flex-wrap gap-1.5">
+                                    ${(analysis.soft_skills || []).map(skill => `<span class="px-2.5 py-0.5 rounded-md bg-indigoJapanese-100 text-indigoJapanese-900 font-medium text-[10px]">${escapeHtml(skill)}</span>`).join('')}
+                                </div>
+                            </div>
+
+                            <div>
+                                <h5 class="font-bold text-xs text-indigoJapanese-900 mb-1">Skill Gap Roadmap</h5>
+                                <ul class="list-disc list-inside space-y-1 text-indigoJapanese-700 pl-1">
+                                    ${(analysis.skill_gap_roadmap || []).map(step => `<li>${escapeHtml(step)}</li>`).join('')}
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h5 class="font-bold text-xs text-indigoJapanese-900 mb-1">Interview Prep Questions</h5>
+                                <ul class="list-disc list-inside space-y-1 text-indigoJapanese-700 pl-1">
+                                    ${(analysis.interview_prep_questions || []).map(q => `<li>${escapeHtml(q)}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    `;
+                }
+
+            } catch (err) {
+                if (bodyEl) {
+                    bodyEl.innerHTML = `
+                        <div class="p-4 bg-red-50 text-red-700 rounded-xl font-medium text-xs">
+                            Failed to dissect posting: ${escapeHtml(err.message)}
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        function closeAnalysisModal() {
+            document.getElementById('analysis-modal')?.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        function toggleMatrixModal() {
+            const modal = document.getElementById('matrix-modal');
+            modal?.classList.toggle('opacity-0');
+            modal?.classList.toggle('pointer-events-none');
+        }
+
+        function toggleChatModal() {
+            const modal = document.getElementById('ai-chat-modal');
+            modal?.classList.toggle('opacity-0');
+            modal?.classList.toggle('pointer-events-none');
+            modal?.classList.toggle('translate-y-4');
+        }
+
+        async function handleChatSubmit(event) {
+            event.preventDefault();
+            const inputField = document.getElementById('user-input');
+            const sendBtn = document.getElementById('send-btn');
+            const chatStream = document.getElementById('chat-stream');
+            const userQuery = inputField?.value.trim();
+
+            if (!userQuery) return;
+
+            if (inputField) inputField.disabled = true;
+            if (sendBtn) sendBtn.disabled = true;
+
+            const userBubble = document.createElement('div');
+            userBubble.className = 'flex justify-end';
+            userBubble.innerHTML = `
+                <div class="p-3 rounded-2xl bg-indigoJapanese-950 text-milk max-w-[85%] leading-relaxed">
+                    ${escapeHtml(userQuery)}
+                </div>
+            `;
+            chatStream?.appendChild(userBubble);
+            if (inputField) inputField.value = '';
+            if (chatStream) chatStream.scrollTop = chatStream.scrollHeight;
+
+            setTimeout(() => {
+                const aiBubble = document.createElement('div');
+                aiBubble.className = 'flex items-start gap-2';
+                aiBubble.innerHTML = `
+                    <div class="p-3 rounded-2xl bg-indigoJapanese-100/70 text-indigoJapanese-950 max-w-[85%] leading-relaxed whitespace-pre-wrap">
+                        I am monitoring your live feeds for LinkedIn, Devpost, and Unstop!
+                    </div>
+                `;
+                chatStream?.appendChild(aiBubble);
+                if (chatStream) chatStream.scrollTop = chatStream.scrollHeight;
+
+                if (inputField) { inputField.disabled = false; inputField.focus(); }
+                if (sendBtn) sendBtn.disabled = false;
+            }, 500);
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+    </script>
+</body>
+</html>
