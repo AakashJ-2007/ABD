@@ -3,50 +3,43 @@ import logging
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 
-# Import Scout Agent with proper fallback handling
+# Import Scout Agent
 try:
-    from scout_agent import run_scout
+    from agents.scout_agent import run_scout
 except ImportError:
     try:
-        from agents.scout_agent import run_scout
+        from scout_agent import run_scout
     except ImportError:
         def run_scout(role, location):
             return {"LinkedIn": [], "Devpost": [], "Unstop": []}
 
-# Import Strategist Agent with fallback
+# Fallback imports for Strategist and Recruiter-Match agents
 try:
-    from strategist_agent import run_strategist_agent
+    from agents.strategist_agent import run_strategist_agent
 except ImportError:
-    try:
-        from agents.strategist_agent import run_strategist_agent
-    except ImportError:
-        def run_strategist_agent(title, company, location, link):
-            return {
-                "job_description": f"Role focusing on {title} at {company}.",
-                "hard_skills": ["Python", "REST APIs", "SQL", "Git", "Docker"],
-                "soft_skills": ["Problem Solving", "Collaboration", "Communication"],
-                "skill_gap_roadmap": ["Master API endpoint patterns.", "Review deployment strategies."],
-                "interview_prep_questions": [f"How do you design scalable APIs for {title}?"]
-            }
+    def run_strategist_agent(title, company, location, link):
+        return {
+            "job_description": f"Role focusing on {title} at {company}.",
+            "hard_skills": ["Python", "REST APIs", "SQL", "Git", "Docker"],
+            "soft_skills": ["Problem Solving", "Collaboration", "Communication"],
+            "skill_gap_roadmap": ["Master API endpoint patterns.", "Review deployment strategies."],
+            "interview_prep_questions": [f"How do you design scalable APIs for {title}?"]
+        }
 
-# Import Recruiter Match Agent with fallback
 try:
-    from recruiter_match_agent import run_recruiter_match_agent
+    from dissection.recruiter_match_agent import run_recruiter_match_agent
 except ImportError:
-    try:
-        from dissection.recruiter_match_agent import run_recruiter_match_agent
-    except ImportError:
-        def run_recruiter_match_agent(job, strategist_analysis, student_profile):
-            return {"match_score": 85, "feedback": "Good match based on core Python skill sets."}
+    def run_recruiter_match_agent(job, strategist_analysis, student_profile):
+        return {"match_score": 85, "feedback": "Good match based on core Python skill sets."}
 
 FRONTEND_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "frontend")
 if not os.path.exists(FRONTEND_DIR):
     FRONTEND_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates")
 
 app = Flask(__name__, static_folder=FRONTEND_DIR, static_url_path="")
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+CORS(app)
 
-# Portals rendered on frontend
+# Only LinkedIn, Devpost, and Unstop horizontally
 KNOWN_PORTALS = ["LinkedIn", "Devpost", "Unstop"]
 
 
@@ -55,12 +48,8 @@ def index():
     return send_from_directory(FRONTEND_DIR, "index.html")
 
 
-# FIXED: Added OPTIONS, GET support, and strict_slashes=False to eliminate HTTP 405
-@app.route("/api/search", methods=["GET", "POST", "OPTIONS"], strict_slashes=False)
+@app.route("/api/search", methods=["POST"])
 def search():
-    if request.method == "OPTIONS":
-        return jsonify({"status": "ok"}), 200
-
     body = request.get_json(force=True, silent=True) or {}
     role = (body.get("role") or "Python Developer").strip()
     location = (body.get("location") or "Remote").strip()
@@ -71,29 +60,28 @@ def search():
         app.logger.error(f"Scout Agent error: {e}")
         return jsonify({"error": f"Scout Agent failed: {e}"}), 500
 
-    # Initialize response dictionary for LinkedIn, Devpost, Unstop
+    # Initialize response dict with only LinkedIn, Devpost, Unstop
     sources = {portal: [] for portal in KNOWN_PORTALS}
 
     if isinstance(result, dict):
+        # Support old format {"jobs": [...], "hackathons": [...]}
         if "jobs" in result or "hackathons" in result:
             all_items = result.get("jobs", []) + result.get("hackathons", [])
             for item in all_items:
                 portal = item.get("source")
                 if portal in sources:
                     sources[portal].append(item)
+        # Support new platform format {"LinkedIn": [...], "Devpost": [...], "Unstop": [...]}
         else:
             for portal in KNOWN_PORTALS:
                 if portal in result and isinstance(result[portal], list):
                     sources[portal] = result[portal]
 
-    return jsonify({"sources": sources}), 200
+    return jsonify({"sources": sources})
 
 
-@app.route("/api/analyze", methods=["GET", "POST", "OPTIONS"], strict_slashes=False)
+@app.route("/api/analyze", methods=["POST"])
 def analyze():
-    if request.method == "OPTIONS":
-        return jsonify({"status": "ok"}), 200
-
     body = request.get_json(force=True, silent=True) or {}
     title = body.get("title", "")
     company = body.get("company", "")
@@ -108,14 +96,11 @@ def analyze():
     except Exception as e:
         return jsonify({"error": f"Strategist Agent failed: {e}"}), 500
 
-    return jsonify({"analysis": analysis}), 200
+    return jsonify({"analysis": analysis})
 
 
-@app.route("/api/match", methods=["GET", "POST", "OPTIONS"], strict_slashes=False)
+@app.route("/api/match", methods=["POST"])
 def match():
-    if request.method == "OPTIONS":
-        return jsonify({"status": "ok"}), 200
-
     body = request.get_json(force=True, silent=True) or {}
     job = body.get("job", {})
     strategist_analysis = body.get("strategist_analysis", {})
@@ -126,8 +111,8 @@ def match():
     except Exception as e:
         return jsonify({"error": f"Recruiter-Match Agent failed: {e}"}), 500
 
-    return jsonify({"match": result}), 200
+    return jsonify({"match": result})
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    app.run(debug=True, port=5000)
