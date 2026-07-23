@@ -248,7 +248,7 @@
                             <i data-lucide="file-text" class="w-5 h-5 text-milk"></i>
                         </div>
                         <h3 class="font-bold text-sm mb-1 text-indigoJapanese-950">Detailed Job Dissection</h3>
-                        <p class="text-xs text-indigoJapanese-600 leading-relaxed">Get deep insights and breakdown on recommended jobs.</p>
+                        <p class="text-xs text-indigoJapanese-600 leading-relaxed">Get deep insights and breakdown on recommended jobs with the Strategist Agent.</p>
                     </div>
 
                     <div class="p-6 rounded-2xl bg-milk text-indigoJapanese-950 border border-milk/60 shadow-xl">
@@ -256,15 +256,15 @@
                             <i data-lucide="zap" class="w-5 h-5 text-milk"></i>
                         </div>
                         <h3 class="font-bold text-sm mb-1 text-indigoJapanese-950">Live Multi-Portal Search</h3>
-                        <p class="text-xs text-indigoJapanese-600 leading-relaxed">Instantly update all job openings across LinkedIn, Devpost, & Unstop.</p>
+                        <p class="text-xs text-indigoJapanese-600 leading-relaxed">Instantly update job openings across LinkedIn, Devpost, Unstop, RemoteOK, & Arbeitnow.</p>
                     </div>
 
                     <div class="p-6 rounded-2xl bg-milk text-indigoJapanese-950 border border-milk/60 shadow-xl">
                         <div class="w-10 h-10 rounded-xl bg-indigoJapanese-950 text-milk flex items-center justify-center mb-4">
-                            <i data-lucide="bot" class="w-5 h-5 text-milk"></i>
+                            <i data-lucide="target" class="w-5 h-5 text-milk"></i>
                         </div>
-                        <h3 class="font-bold text-sm mb-1 text-indigoJapanese-950">Career Growth Assistant</h3>
-                        <p class="text-xs text-indigoJapanese-600 leading-relaxed">Personalized AI assistance built for long-term career growth.</p>
+                        <h3 class="font-bold text-sm mb-1 text-indigoJapanese-950">Recruiter Match Engine</h3>
+                        <p class="text-xs text-indigoJapanese-600 leading-relaxed">Deterministic candidate fit score predictions evaluated against live postings.</p>
                     </div>
                 </div>
 
@@ -448,7 +448,7 @@
                     <span id="live-clock">12:00:00 PM</span>
                 </div>
 
-                <!-- 🌟 AGENTIC AI RESUME ANALYZER BUTTON (NEXT TO CLOCK) -->
+                <!-- 🌟 RESUME ANALYZER BUTTON -->
                 <button onclick="toggleResumeModal()" id="header-resume-btn" class="glow-btn-secondary px-3.5 py-2 text-xs font-bold rounded-xl flex items-center gap-2 shadow-sm">
                     <i data-lucide="file-text" class="w-4 h-4 text-emerald-600"></i>
                     <span id="resume-btn-label" class="hidden md:inline">Upload Resume</span>
@@ -484,7 +484,7 @@
         </header>
 
         <!-- Dashboard Main Content -->
-        <main class="p-6 md:p-8 space-y-8 max-w-7xl mx-auto w-full flex-1">
+        <main class="p-6 md:p-8 space-y-8 max-w-[1600px] mx-auto w-full flex-1">
 
             <!-- Title Banner -->
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -520,7 +520,7 @@
                             id="location-input"
                             type="text" 
                             placeholder="Location (e.g. Remote, Bangalore, Coimbatore)" 
-                            value="Coimbatore"
+                            value="Remote"
                             class="w-full px-4 py-2.5 text-xs font-medium glow-input rounded-xl text-indigoJapanese-950 focus:outline-none"
                             required
                         >
@@ -535,14 +535,14 @@
                 </form>
 
                 <p class="text-[11px] text-indigoJapanese-600 font-medium">
-                    Sources: LinkedIn, Devpost, Unstop (live public feeds — no fake/synthetic listings).
+                    Sources: LinkedIn, Unstop, RemoteOK, Arbeitnow, Devpost (live public feeds — no fake/synthetic listings).
                 </p>
             </div>
 
-            <!-- 📊 3 Horizontal Platform Output Columns -->
-            <div id="job-results-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+            <!-- 📊 Dynamic Multi-Portal Output Grid (5 Columns Supported) -->
+            <div id="job-results-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 w-full">
                 <!-- Initial Empty State -->
-                <div class="col-span-full glass-card p-8 rounded-2xl text-center border border-milk/30">
+                <div class="col-span-full glass-card p-10 rounded-2xl text-center border border-milk/30">
                     <i data-lucide="search" class="w-8 h-8 mx-auto text-indigoJapanese-600 mb-2"></i>
                     <h3 class="font-bold text-indigoJapanese-950 text-sm">No Active Search Executed</h3>
                     <p class="text-xs text-indigoJapanese-600 mt-1">Enter a keyword and location above to trigger the Scout Agent.</p>
@@ -585,7 +585,7 @@
 
                 <div>
                     <label class="block text-xs font-bold text-indigoJapanese-950 mb-1">Or Paste Resume Text directly:</label>
-                    <textarea id="resume-text-input" rows="4" placeholder="Paste your key skills, projects, and work experience here..." class="w-full glow-input rounded-xl p-3 text-xs focus:outline-none"></textarea>
+                    <textarea id="resume-text-input" rows="4" placeholder="Paste your key skills (Python, Django, React, SQL, Git, REST APIs), experience, and projects here..." class="w-full glow-input rounded-xl p-3 text-xs focus:outline-none"></textarea>
                 </div>
             </div>
 
@@ -669,11 +669,11 @@
             <div class="space-y-3 text-xs">
                 <div class="flex justify-between items-center p-3 rounded-xl bg-indigoJapanese-100/70">
                     <span class="font-semibold text-indigoJapanese-950">Scout Agent Thread</span>
-                    <span class="text-emerald-700 font-bold">Active • 120ms Latency</span>
+                    <span class="text-emerald-700 font-bold">Active • 5 Live Feeds</span>
                 </div>
                 <div class="flex justify-between items-center p-3 rounded-xl bg-indigoJapanese-100/70">
                     <span class="font-semibold text-indigoJapanese-950">Gemini LLM Dissect Engine</span>
-                    <span class="text-emerald-700 font-bold">Operational • Gemini 1.5 Flash</span>
+                    <span class="text-emerald-700 font-bold">Operational • Gemini Flash</span>
                 </div>
                 <div class="flex justify-between items-center p-3 rounded-xl bg-indigoJapanese-100/70">
                     <span class="font-semibold text-indigoJapanese-950">Recruiter Match Engine</span>
@@ -712,7 +712,7 @@
         <div id="chat-stream" class="h-64 overflow-y-auto space-y-3 pr-1 mb-3 text-xs">
             <div class="flex items-start gap-2">
                 <div class="p-3 rounded-2xl bg-indigoJapanese-100/70 text-indigoJapanese-950 max-w-[85%] leading-relaxed">
-                    Hello! I am monitoring your Scout Agent runs for LinkedIn, Devpost, and Unstop. Upload your resume above to calculate live Job Match Scores!
+                    Hello! I am monitoring your Scout Agent runs. Upload your resume above to calculate live Job Match Scores!
                 </div>
             </div>
         </div>
@@ -888,14 +888,15 @@
     </script>
 
     <!-- ================================================================= -->
-    <!-- SECTION 4: DASHBOARD & RESUME ANALYZER SCRIPT                     -->
+    <!-- SECTION 4: DASHBOARD & AGENTIC AI SCRIPT                         -->
     <!-- ================================================================= -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             if (window.lucide) lucide.createIcons();
         });
 
-        const ALLOWED_PORTALS = ["LinkedIn", "Devpost", "Unstop"];
+        // Global state tracking
+        window.jobMap = {};
         let isResumeUploaded = false;
         let uploadedResumeData = { filename: '', text: '' };
         let currentSearchData = {};
@@ -985,7 +986,7 @@
 
             if (!role || !location) return;
 
-            triggerToast('Scout Agent Executing', `Scanning LinkedIn, Devpost, & Unstop for "${role}"...`);
+            triggerToast('Scout Agent Executing', `Scanning portals for "${role}"...`);
             renderLoadingState();
 
             try {
@@ -1024,7 +1025,7 @@
                 <div class="col-span-full glass-card p-12 rounded-2xl text-center border border-milk/30 animate-pulse space-y-3">
                     <i data-lucide="refresh-cw" class="w-8 h-8 mx-auto text-indigoJapanese-700 animate-spin"></i>
                     <h3 class="font-bold text-indigoJapanese-950 text-sm">Scout Agent Scanning Live Portals...</h3>
-                    <p class="text-xs text-indigoJapanese-600">Retrieving listings from LinkedIn, Devpost, and Unstop.</p>
+                    <p class="text-xs text-indigoJapanese-600">Retrieving listings from LinkedIn, Unstop, RemoteOK, Arbeitnow, and Devpost.</p>
                 </div>
             `;
             if (window.lucide) lucide.createIcons();
@@ -1034,14 +1035,28 @@
             const gridContainer = document.getElementById('job-results-grid');
             if (!gridContainer) return;
             gridContainer.innerHTML = '';
+            window.jobMap = {}; // Reset safe lookup dictionary
+
+            const portalNames = Object.keys(sources);
+
+            if (portalNames.length === 0) {
+                gridContainer.innerHTML = `
+                    <div class="col-span-full glass-card p-8 rounded-2xl text-center border border-milk/30">
+                        <p class="text-xs font-bold text-indigoJapanese-950">No opportunities found for this query.</p>
+                    </div>
+                `;
+                return;
+            }
 
             const portalBorderColors = {
                 "LinkedIn": "border-t-blue-600",
-                "Devpost": "border-t-indigo-600",
-                "Unstop": "border-t-amber-500"
+                "Unstop": "border-t-amber-500",
+                "RemoteOK": "border-t-rose-500",
+                "Arbeitnow": "border-t-purple-600",
+                "Devpost": "border-t-indigo-600"
             };
 
-            ALLOWED_PORTALS.forEach(portalName => {
+            portalNames.forEach(portalName => {
                 const items = sources[portalName] || [];
                 const topBorderClass = portalBorderColors[portalName] || "border-t-indigoJapanese-700";
 
@@ -1063,18 +1078,19 @@
                 if (items.length === 0) {
                     listContainer.innerHTML = `<p class="text-xs text-indigoJapanese-600 italic p-2">No active postings found.</p>`;
                 } else {
-                    items.forEach(item => {
+                    items.forEach((item, idx) => {
+                        const jobId = `${portalName.toLowerCase()}_${idx}`;
+                        window.jobMap[jobId] = item;
+
                         const card = document.createElement('div');
                         card.className = "p-3.5 rounded-xl bg-white/90 border border-indigoJapanese-900/10 hover:border-indigoJapanese-900/30 transition-all flex flex-col justify-between gap-2 shadow-sm";
 
-                        const safeItemJson = escapeHtml(JSON.stringify(item));
-
                         const matchBtnHtml = isResumeUploaded 
-                            ? `<button onclick='handleMatchClick(${safeItemJson})' class="text-[11px] font-semibold text-blue-600 border border-blue-500 hover:bg-blue-50 px-2 py-1 rounded-md transition-colors flex items-center gap-1">
-                                    <i data-lucide="percent" class="w-3 h-3"></i> Match Score
+                            ? `<button onclick="handleMatchClick('${jobId}')" class="text-[11px] font-semibold text-blue-600 border border-blue-500 hover:bg-blue-50 px-2 py-1 rounded-md transition-colors flex items-center gap-1">
+                                    <i data-lucide="target" class="w-3 h-3"></i> Match
                                </button>`
-                            : `<button onclick='handleMatchClick(${safeItemJson})' class="text-[11px] font-semibold text-gray-400 border border-gray-300 hover:border-amber-500 hover:text-amber-700 px-2 py-1 rounded-md transition-colors flex items-center gap-1" title="Upload Resume First">
-                                    <i data-lucide="lock" class="w-3 h-3 text-amber-500"></i> Match Score
+                            : `<button onclick="handleMatchClick('${jobId}')" class="text-[11px] font-semibold text-gray-400 border border-gray-300 hover:border-amber-500 hover:text-amber-700 px-2 py-1 rounded-md transition-colors flex items-center gap-1" title="Upload Resume First">
+                                    <i data-lucide="lock" class="w-3 h-3 text-amber-500"></i> Match
                                </button>`;
 
                         card.innerHTML = `
@@ -1083,11 +1099,11 @@
                                 <p class="text-[11px] text-indigoJapanese-600 font-medium">${escapeHtml(item.company)} • ${escapeHtml(item.location)}</p>
                             </div>
                             <div class="flex items-center justify-between pt-1 gap-1">
-                                <button onclick='triggerAnalysisModal(${safeItemJson})' class="text-[11px] font-semibold text-emerald-600 border border-emerald-500 hover:bg-emerald-50 px-2 py-1 rounded-md transition-colors">
+                                <button onclick="triggerAnalysisModal('${jobId}')" class="text-[11px] font-semibold text-emerald-600 border border-emerald-500 hover:bg-emerald-50 px-2 py-1 rounded-md transition-colors">
                                     Analysis
                                 </button>
                                 ${matchBtnHtml}
-                                <a href="${item.link || '#'}" target="_blank" rel="noopener noreferrer" class="text-[11px] font-semibold text-gray-700 border border-gray-400 hover:bg-gray-100 px-2.5 py-1 rounded-md transition-colors inline-block">
+                                <a href="${item.link || item.url || '#'}" target="_blank" rel="noopener noreferrer" class="text-[11px] font-semibold text-gray-700 border border-gray-400 hover:bg-gray-100 px-2.5 py-1 rounded-md transition-colors inline-block">
                                     View
                                 </a>
                             </div>
@@ -1103,10 +1119,13 @@
             if (window.lucide) lucide.createIcons();
         }
 
-        /* --- RECRUITER MATCH SCORE PREDICTION ENGINE --- */
-        async function handleMatchClick(job) {
+        /* --- RECRUITER MATCH SCORE PREDICTION ENGINE (POST /api/match) --- */
+        async function handleMatchClick(jobId) {
+            const job = window.jobMap[jobId];
+            if (!job) return;
+
             if (!isResumeUploaded) {
-                alert("Please upload your resume first using the button at the top right.");
+                alert("Please upload or paste your resume first using the top right button.");
                 toggleResumeModal();
                 return;
             }
@@ -1123,8 +1142,8 @@
                 bodyEl.innerHTML = `
                     <div class="p-8 text-center space-y-2">
                         <i data-lucide="target" class="w-8 h-8 mx-auto text-blue-600 animate-spin"></i>
-                        <p class="font-bold text-xs text-indigoJapanese-950">Recruiter Match Agent Dissecting CV vs Job...</p>
-                        <p class="text-[11px] text-indigoJapanese-600">Extracting requirements from Scout & Strategist Agents...</p>
+                        <p class="font-bold text-xs text-indigoJapanese-950">Running Dissection & Recruiter Match Engine...</p>
+                        <p class="text-[11px] text-indigoJapanese-600">Cross-checking candidate CV skills against live job posting...</p>
                     </div>
                 `;
             }
@@ -1132,12 +1151,38 @@
             matchModal?.classList.remove('opacity-0', 'pointer-events-none');
 
             try {
+                // 1. Fetch Strategist Analysis from POST /api/analyze
+                const analysisRes = await fetch('/api/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        title: job.title,
+                        company: job.company,
+                        location: job.location,
+                        link: job.link || job.url || ''
+                    })
+                });
+
+                const analysisData = await analysisRes.json();
+                const strategistAnalysis = analysisData.analysis || {};
+
+                // 2. Extract Candidate Profile from Resume Text
+                const extractedSkills = extractSkillsFromText(uploadedResumeData.text);
+                const studentProfile = {
+                    skills: extractedSkills.length > 0 ? extractedSkills : ["Python", "Git", "REST APIs", "SQL", "Communication"],
+                    years_experience: 1.5,
+                    location_preference: "Remote",
+                    interests: [job.title || "Software"]
+                };
+
+                // 3. Call Recruiter Match Endpoint POST /api/match
                 const response = await fetch('/api/match', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         job: job,
-                        resume_text: uploadedResumeData.text
+                        strategist_analysis: strategistAnalysis,
+                        student_profile: studentProfile
                     })
                 });
 
@@ -1145,39 +1190,57 @@
                 if (data.error) throw new Error(data.error);
 
                 const match = data.match || {};
-                const matchScore = match.match_score || 70;
-                const feedback = match.feedback || "Calculated based on skill alignment.";
-                const matchedSkills = match.matched_skills || [];
-                const missingSkills = match.missing_skills || [];
+                const fitScore = match.fit_score ?? 75;
+                const verdict = match.verdict || "Good Fit";
+                const bd = match.breakdown || {};
 
                 if (bodyEl) {
                     bodyEl.innerHTML = `
                         <div class="space-y-4">
-                            <div class="p-4 bg-blue-50 rounded-2xl border border-blue-100 flex items-center justify-between">
+                            <div class="p-4 bg-indigoJapanese-950 text-milk rounded-2xl flex items-center justify-between shadow-md">
                                 <div>
-                                    <h4 class="text-xs font-bold text-indigoJapanese-950">Predicted Recruiter Candidate Match</h4>
-                                    <p class="text-[11px] text-indigoJapanese-600 mt-0.5">${escapeHtml(feedback)}</p>
+                                    <span class="text-[10px] uppercase font-bold text-indigoJapanese-200 block">Recruiter Verdict</span>
+                                    <h4 class="text-base font-extrabold text-milk-fixed">${escapeHtml(verdict)}</h4>
                                 </div>
-                                <div class="text-2xl font-extrabold text-blue-600 bg-white px-3.5 py-1.5 rounded-xl border border-blue-200 shadow-sm font-display">
-                                    ${matchScore}%
-                                </div>
-                            </div>
-
-                            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-100">
-                                <h5 class="font-bold text-xs text-emerald-900 mb-1">Matched Core Skills Found in CV</h5>
-                                <div class="flex flex-wrap gap-1.5">
-                                    ${matchedSkills.length > 0 
-                                        ? matchedSkills.map(s => `<span class="px-2.5 py-0.5 rounded bg-emerald-200/80 text-emerald-950 font-bold text-[10px]">${escapeHtml(s)}</span>`).join('')
-                                        : `<span class="text-[11px] text-emerald-700 italic">No direct skill matches found in resume.</span>`}
+                                <div class="text-right">
+                                    <span class="text-2xl font-black text-emerald-400 font-display">${fitScore}%</span>
+                                    <span class="block text-[10px] text-indigoJapanese-200">Candidate Fit Score</span>
                                 </div>
                             </div>
 
-                            <div class="p-3 bg-amber-50 rounded-xl border border-amber-100">
-                                <h5 class="font-bold text-xs text-amber-900 mb-1">Missing Skill Gaps Needed for Job</h5>
-                                <div class="flex flex-wrap gap-1.5">
-                                    ${missingSkills.length > 0 
-                                        ? missingSkills.map(s => `<span class="px-2.5 py-0.5 rounded bg-amber-200/80 text-amber-950 font-bold text-[10px]">${escapeHtml(s)}</span>`).join('')
-                                        : `<span class="text-[11px] text-amber-800 font-semibold">Perfect alignment! Your CV covers all key skills.</span>`}
+                            <div class="space-y-2">
+                                <h5 class="font-bold text-xs text-indigoJapanese-900">Score Breakdown</h5>
+                                
+                                <div class="p-3 rounded-xl bg-white/90 border border-indigoJapanese-900/10 space-y-1.5">
+                                    <div class="flex items-center justify-between text-xs font-bold">
+                                        <span>Skill Overlap (45% Weight)</span>
+                                        <span class="text-emerald-700">${bd.skill_overlap?.score ?? 0}%</span>
+                                    </div>
+                                    <div class="text-[11px]">
+                                        <span class="font-semibold text-emerald-800">Matched: </span>
+                                        <span>${(bd.skill_overlap?.matched || []).join(', ') || 'None'}</span>
+                                    </div>
+                                    ${(bd.skill_overlap?.missing || []).length > 0 ? `
+                                        <div class="text-[11px]">
+                                            <span class="font-semibold text-amber-700">Missing Gaps: </span>
+                                            <span>${bd.skill_overlap.missing.join(', ')}</span>
+                                        </div>
+                                    ` : ''}
+                                </div>
+
+                                <div class="p-2.5 rounded-xl bg-white/90 border border-indigoJapanese-900/10 flex items-center justify-between">
+                                    <span class="font-medium text-xs">Experience Alignment (25% Weight)</span>
+                                    <span class="font-bold text-indigoJapanese-950">${bd.experience_alignment?.score ?? 0}%</span>
+                                </div>
+
+                                <div class="p-2.5 rounded-xl bg-white/90 border border-indigoJapanese-900/10 flex items-center justify-between">
+                                    <span class="font-medium text-xs">Location Compatibility (20% Weight)</span>
+                                    <span class="font-bold text-indigoJapanese-950">${bd.location_compatibility?.score ?? 0}%</span>
+                                </div>
+
+                                <div class="p-2.5 rounded-xl bg-white/90 border border-indigoJapanese-900/10 flex items-center justify-between">
+                                    <span class="font-medium text-xs">Interest & Domain Fit (10% Weight)</span>
+                                    <span class="font-bold text-indigoJapanese-950">${bd.interest_alignment?.score ?? 0}%</span>
                                 </div>
                             </div>
                         </div>
@@ -1188,7 +1251,7 @@
                 if (bodyEl) {
                     bodyEl.innerHTML = `
                         <div class="p-4 bg-red-50 text-red-700 rounded-xl font-medium text-xs">
-                            Failed to compute match score: ${escapeHtml(err.message)}
+                            Failed to compute recruiter fit: ${escapeHtml(err.message)}
                         </div>
                     `;
                 }
@@ -1199,7 +1262,11 @@
             document.getElementById('match-modal')?.classList.add('opacity-0', 'pointer-events-none');
         }
 
-        async function triggerAnalysisModal(job) {
+        /* --- STRATEGIST AGENT (POST /api/analyze) --- */
+        async function triggerAnalysisModal(jobId) {
+            const job = window.jobMap[jobId];
+            if (!job) return;
+
             const modal = document.getElementById('analysis-modal');
             const titleEl = document.getElementById('modal-role-title');
             const infoEl = document.getElementById('modal-company-info');
@@ -1213,6 +1280,7 @@
                     <div class="p-8 text-center space-y-2">
                         <i data-lucide="cpu" class="w-8 h-8 mx-auto text-emerald-600 animate-spin"></i>
                         <p class="font-bold text-xs text-indigoJapanese-950">Strategist Agent Dissecting Posting...</p>
+                        <p class="text-[11px] text-indigoJapanese-600">Scraping text, extracting hard/soft skills, roadmap & interview questions.</p>
                     </div>
                 `;
             }
@@ -1227,7 +1295,7 @@
                         title: job.title,
                         company: job.company,
                         location: job.location,
-                        link: job.link
+                        link: job.link || job.url || ''
                     })
                 });
 
@@ -1331,7 +1399,7 @@
                 aiBubble.className = 'flex items-start gap-2';
                 aiBubble.innerHTML = `
                     <div class="p-3 rounded-2xl bg-indigoJapanese-100/70 text-indigoJapanese-950 max-w-[85%] leading-relaxed whitespace-pre-wrap">
-                        I am monitoring your live feeds for LinkedIn, Devpost, and Unstop!
+                        I am monitoring your live feeds for LinkedIn, Devpost, Unstop, RemoteOK, and Arbeitnow!
                     </div>
                 `;
                 chatStream?.appendChild(aiBubble);
@@ -1340,6 +1408,18 @@
                 if (inputField) { inputField.disabled = false; inputField.focus(); }
                 if (sendBtn) sendBtn.disabled = false;
             }, 500);
+        }
+
+        // Helper to extract known skills from resume text
+        function extractSkillsFromText(text) {
+            if (!text) return [];
+            const commonSkills = [
+                "Python", "Django", "Flask", "FastAPI", "Java", "Spring Boot", "JavaScript", "TypeScript",
+                "React", "Angular", "Vue", "Node.js", "Express", "SQL", "PostgreSQL", "MySQL", "MongoDB",
+                "AWS", "Docker", "Kubernetes", "Git", "REST", "Machine Learning", "C++", "C#", "Communication"
+            ];
+            const lower = text.toLowerCase();
+            return commonSkills.filter(skill => lower.includes(skill.toLowerCase()));
         }
 
         function escapeHtml(text) {
